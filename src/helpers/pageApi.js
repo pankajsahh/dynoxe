@@ -45,7 +45,7 @@ const usePageData = (url) => {
       localStorage.removeItem("show_tv_login_data");
       localStorage.removeItem("isLogin");
       dispatch(setAuthInfo(null));
-      navigate("/login");
+      // navigate("/login");
       return;
     }
     try {

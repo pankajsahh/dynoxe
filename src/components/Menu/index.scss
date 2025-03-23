@@ -80,9 +80,9 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-evenly;
-    width: 60px;
-    height: 598px;
+    justify-content: center;
+    width: 115px;
+    height: 720px;
     padding: 0;
     margin: 0;
     background: #151515;
@@ -91,60 +91,62 @@
     margin: auto 4px;
     bottom: 0;
     left: 4px;
-    .SubMenu {
-      position: absolute;
-      left: 100%;
-      top: 0;
-      bottom: 0;
-      margin: auto 0px;
-      &.channel {
-        left: calc(100% + 180px);
-      }
-      .listWrapper {
-        overflow-y: scroll;
-        .SubMenuItem {
-          width: 180px;
-          height: 40px;
-          display: flex;
-          align-items: center;
-          position: relative;
-          p{
-            width: 118px;
-            margin-left: 8px;
-          }
-          .LikedLive {
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            margin: auto 0;
-            right: 3px;
-            display: flex;
-            width: 16px;
-            height: 16px;
-          }
-          &.category {
-            background: #0d0d0d80;
-            &.selected {
-              background: rgb(218, 81, 61);
-            }
-            &.focused {
-              background: rgb(255, 255, 255);
-              color: #151515;
-            }
-          }
-          &.channel {
-            background: #12121266;
-            &.selected {
-              background: rgba(218, 82, 61, 0.838);
-            }
-            &.focused {
-              background: rgb(255, 255, 255);
-              color: #151515;
-            }
+
+    // larege smalll css
+
+    &.large {
+      width: 285px;
+      height: 720px;
+      border-radius: 0px;
+      margin: 0px;
+      left: 0px;
+      .menu-item {
+        width: 100%;
+        border-radius: 0px;
+        margin: 0px;
+        margin-top: 20px;
+        margin-left: 30px;
+        flex-direction: row;
+        .LogoCover {
+          flex: 0.6;
+        }
+        .title {
+          flex: 1;
+          text-align: start;
+          font-family: Noto Sans;
+          font-weight: 500;
+          font-size: 17px;
+          line-height: 21px;
+          letter-spacing: 0%;
+          &.active {
+            color: #179efb;
           }
         }
       }
+      .BrandLogo {
+        position: absolute;
+        top: 68px;
+        left: 56px;
+      }
     }
+    &.small {
+      // background: red;
+      border-radius: 0px;
+      .menu-item {
+        margin-top: 20px;
+        .title {
+          display: none;
+        }
+      }
+      .BrandLogo {
+        position: absolute;
+        top: 30px;
+        left: 35px;
+      }
+    }
+
+    //////////////////
+
     .menu-item {
       width: 100%;
       display: flex;
@@ -153,6 +155,7 @@
       box-sizing: border-box;
       font-size: functions.get-vw(16px);
       position: relative;
+
       .LogoCover {
         width: 48px;
         height: 48px;
@@ -175,23 +178,8 @@
         margin-top: 5px;
       }
 
-      &:focus {
-        .title {
-          font-weight: 700;
-          font-family: Poppins-Bold;
-        }
-      }
-
       &.active:not(:focus) {
         // border-left: functions.get-vw(6px) solid #ff0000;
-        .title {
-          font-weight: 700;
-          font-family: Poppins-Bold;
-        }
-      }
-
-      &:hover {
-        // border-left: functions.get-vw(6px) solid #f2f2f2;
         .title {
           font-weight: 700;
           font-family: Poppins-Bold;
