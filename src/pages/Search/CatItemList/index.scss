@@ -1,0 +1,52 @@
+.ResultsListContainer {
+  display: flex;
+  width: 100%;
+  margin-top: 10px ;
+  .CatList {
+    display: flex;
+    flex-wrap: wrap;
+    height: 600px;
+    width: 100%;
+    overflow: scroll;
+    scroll-behavior: smooth;
+    .list-item {
+      width: 121px;
+      height: 179px;
+      overflow: hidden;
+      margin: 0 0 10px 10px;
+      display: flex;
+      border: 1.5px solid transparent;
+      justify-content: center;
+      align-items: center;
+      &.focused {
+        border: 1.5px solid white;
+        transform: scale(1.5); /* Scale the focused item */
+        transition: transform 0.3s ease, border-color 0.3s ease;
+        &.top{
+          &.start{
+            transform-origin: left top;
+          }
+          &.mid{
+            transform-origin: top center;
+          }
+          &.end{
+            transform-origin: right top;
+          }
+        }
+        
+        &.bottom{
+          &.start{
+            transform-origin: left bottom;
+          }
+          &.mid{
+            transform-origin: bottom center;
+          }
+          &.end{
+            transform-origin: right bottom;
+          }
+        }
+      }
+
+    }
+  }
+}

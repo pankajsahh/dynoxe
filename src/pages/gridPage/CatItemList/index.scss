@@ -1,0 +1,50 @@
+.CatItemListContainer {
+  display: flex;
+  width: 1216px;
+  margin-top: 10px ;
+  .CatList {
+    display: flex;
+    flex-wrap: wrap;
+    height: 600px;
+    overflow: scroll;
+    scroll-behavior: smooth;
+    .list-item {
+      width: 187px;
+      height: 277px;
+      overflow: hidden;
+      margin: 0 0 10px 10px;
+      display: flex;
+      border: 1.5px solid transparent;
+      display: flex;
+      &.focused {
+        border: 1.5px solid white;
+        transform: scale(1.3); /* Scale the focused item */
+        transition: transform 0.3s ease, border-color 0.3s ease;
+        &.top{
+          &.start{
+            transform-origin: left top;
+          }
+          &.mid{
+            transform-origin: top center;
+          }
+          &.end{
+            transform-origin: right top;
+          }
+        }
+        
+        &.bottom{
+          &.start{
+            transform-origin: left bottom;
+          }
+          &.mid{
+            transform-origin: bottom center;
+          }
+          &.end{
+            transform-origin: right bottom;
+          }
+        }
+      }
+
+    }
+  }
+}

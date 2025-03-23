@@ -1,0 +1,25 @@
+.LivePlayerPage{
+    color: white;
+    background-color: white;
+   width: 1280px;
+   height: 720px;
+   .FavoriteButton{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    bottom: 30px;
+    right: 70px;
+    z-index: 999;
+    padding: 12px 12px;
+    border-radius: 30px;
+   background: rgba(47, 44, 44, 0.568);
+    border: 1.5px solid rgba(255, 255, 255, 0);
+    &.focused{
+        border: 1.5px solid white;
+    }
+    &.liked{
+        background: rgb(218 82 61 / 84%);
+    }
+   }
+}

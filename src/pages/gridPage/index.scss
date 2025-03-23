@@ -1,0 +1,28 @@
+.Grid-page {
+  position: relative;
+  padding: 0;
+  font-size: 0.8333333333vw;
+  color: #fff;
+  font-family: sans-serif;
+  display: flex;
+  flex-direction: column;
+  background-color: #151515;
+  width: 1216px;
+
+  .title {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 30px;
+    font-family: Inter;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 24px;
+    text-align: center;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+  }
+  .Grid-page-container{
+    
+  }
+}

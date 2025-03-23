@@ -1,0 +1,87 @@
+@use "../../../scss/functions.scss";
+@use "../../../scss/variables.scss";
+.modal-wrapper {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  &__content-wrapper {
+    width: 400px;
+    height: auto;
+    max-height: 400px;
+    overflow: hidden;
+    background: #d3d3d3;
+    // border-radius: 20px;
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex: none;
+    .data-list {
+      list-style: none;
+      width: 100%;
+      height: auto;
+      padding: 0;
+      margin: 0;
+      // background: red;
+      .data-list-item {
+        width: 100%;
+        // height: functions.get-vw(50px);
+        line-height: functions.get-vw(50px);
+        background-color:  #da513d;;
+        border: functions.get-vw(2px) solid  #b3776e;;
+        padding: functions.get-vw(20px) functions.get-vw(20px);
+        box-sizing: border-box;
+        // margin-bottom: functions.get-vw(6px);
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        color: #fff;
+        font-size: 24px;
+        font-family: "NotoSans-Regular";
+        span {
+          font-family: "NotoSans-Regular";
+          width: 80%;
+          font-size: 24px;
+        }
+        &:focus {
+          color:  #da513d;;
+          background-color: #ffffff;
+          .check {
+            position: relative;
+            left: 0;
+            top: functions.get-vw(5px);
+            background-image: url("../../../assets/images/check_focus.svg");
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            width: functions.get-vw(50px);
+            height: functions.get-vw(50px);
+          }
+        }
+        &.active {
+          .check {
+            display: block;
+          }
+        }
+        .check {
+          position: relative;
+          left: 0;
+          top: functions.get-vw(5px);
+          background-image: url("../../../assets/images/check.svg");
+          background-position: center;
+          background-repeat: no-repeat;
+          background-size: cover;
+          width: functions.get-vw(50px);
+          height: functions.get-vw(50px);
+          display: none;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,101 @@
+.favorites-page {
+  position: relative;
+  padding: 0;
+  font-size: 0.8333333333vw;
+  color: #fff;
+  font-family: sans-serif;
+  display: flex;
+  flex-direction: column;
+  background-color: #151515;
+  width: 1216px;
+
+  margin-top: 26px;
+  overflow: scroll;
+  .Title {
+    font-family: Inter;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 24px;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+    margin-left: 20px;
+  }
+  .movies-container {
+    .trayModule {
+      padding-top: 0px;
+      .tray-title {
+        font-family: Inter;
+        font-size: 22px;
+        font-weight: 700;
+        line-height: 24px;
+        text-align: left;
+        text-underline-position: from-font;
+        text-decoration-skip-ink: none;
+      }
+      .list-item {
+        width: 135px;
+        height: 198px;
+
+        border-radius: 8px;
+
+        img {
+          width: 135px;
+          height: 198px;
+          object-fit: contain;
+        }
+      }
+    }
+  }
+  .series-container {
+    .trayModule {
+      padding-top: 0px;
+      .tray-title {
+        font-family: Inter;
+        font-size: 22px;
+        font-weight: 700;
+        line-height: 24px;
+        text-align: left;
+        text-underline-position: from-font;
+        text-decoration-skip-ink: none;
+      }
+      .list-item {
+        width: 135px;
+        height: 198px;
+        border-radius: 8px;
+        img {
+          width: 135px;
+          height: 198px;
+          object-fit: contain;
+        }
+      }
+    }
+  }
+  .Live-container {
+    .trayModule {
+      padding-top: 0px;
+      .tray-title {
+        margin: 5px 0;
+        font-family: Inter;
+        font-size: 22px;
+        font-weight: 700;
+        line-height: 24px;
+        text-align: left;
+        text-underline-position: from-font;
+        text-decoration-skip-ink: none;
+      }
+      .list-item {
+        width: 202px;
+        height: 128px;
+        gap: 0px;
+        border-radius: 8px;
+        padding: 2px;
+        img {
+          width: 202px;
+          height: 128px;
+          object-fit: contain;
+        }
+      }
+    }
+  }
+}

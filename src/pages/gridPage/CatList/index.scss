@@ -1,0 +1,43 @@
+.CatListContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  .CatList {
+    display: flex;
+    overflow: scroll;
+    width: 90%;
+    margin-top: 20px;
+    .CatBox {
+      min-width: 120px;
+      height: 20px;
+      padding: 8px;
+      border-radius: 20px;
+      border: 1px solid transparent;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-right: 5px;
+      font-family: Inter;
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 24px;
+      text-align: center;
+      text-underline-position: from-font;
+      text-decoration-skip-ink: none;
+
+      &.focused {
+        color: #151515;
+        background: white;
+      }
+      &.selected {
+        color: white;
+        background: #da513d;
+        &.focused {
+          color: #151515;
+          background: white;
+        }
+      }
+    }
+  }
+}

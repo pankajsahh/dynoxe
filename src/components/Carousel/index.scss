@@ -1,0 +1,154 @@
+@use "../../scss/functions.scss";
+@use "../../scss/variables.scss";
+
+.carousel-container {
+  width: 90%;
+  height: 52%;
+  position: absolute;
+  top: 0;
+  left: 10%;
+  margin: 0;
+  padding: 0;
+  color: variables.$white-color;
+  display: flex;
+  background-color: #151515;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  flex: none;
+  border: functions.get-vw(8px) solid transparent;
+  padding: functions.get-vw(20px);
+  box-sizing: border-box;
+  &:focus {
+    border: functions.get-vw(8px) solid variables.$white-color;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 0;
+    // background: linear-gradient(
+    //   to right,
+    //   rgba(21, 21, 21, 0.02) 0%,
+    //   rgba(21, 21, 21, 0.2) 35%,
+    //   rgba(21, 21, 21, 0.6) 50%,
+    //   rgba(21, 21, 21, 0.8) 75%,
+    //   rgba(21, 21, 21, 1) 100%
+    // );
+    width: 40%;
+    height: 100%;
+  }
+
+  &::before {
+    content: "";
+    position: absolute;
+    bottom: -1px;
+    right: 0;
+    background: linear-gradient(
+      180deg,
+      rgba(21, 21, 21, 0.02) 0%,
+      rgba(21, 21, 21, 0.4) 35%,
+      rgba(21, 21, 21, 0.6) 50%,
+      rgba(21, 21, 21, 0.8) 75%,
+      rgba(21, 21, 21, 1) 100%
+    );
+    width: 100%;
+    height: 70%;
+  }
+
+  .comingsoon-banner {
+    width: 91%;
+    height: functions.get-vw(100px);
+    // background: linear-gradient(135deg, #742982 0%, #a83579 100%);
+    background: variables.$button-background;
+    position: absolute;
+    left: 9%;
+    top: 0;
+  }
+  .details-wrapper {
+    font-size: functions.get-vw(16px);
+    position: relative;
+    left: functions.get-vw(192px);
+    top: functions.get-vw(180px);
+    width: functions.get-vw(1497px);
+    height: functions.get-vw(214px);
+    display: flex;
+    flex-direction: column;
+    &.fullmenu {
+      left: functions.get-vw(398px);
+    }
+    .title {
+      font-size: functions.get-vw(60px);
+      color: variables.$white-color1;
+      margin-bottom: functions.get-vw(30px);
+      font-family: Poppins-SemiBold;
+      font-style: normal;
+      font-weight: 600;
+      line-height: functions.get-vw(55px);
+      // height: functions.get-vw(180px);
+      // width: 100%;
+      // white-space: nowrap;
+      // overflow: hidden;
+      // text-overflow: ellipsis;
+    }
+
+    .genre {
+      font-size: functions.get-vw(24px);
+      color: variables.$white-color;
+      margin-bottom: functions.get-vw(30px);
+      font-family: Poppins-Regular;
+      font-style: normal;
+      font-weight: 400;
+      line-height: functions.get-vw(26px);
+
+      .text {
+        margin-right: functions.get-vw(10px);
+      }
+    }
+    .more-details {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      padding: functions.get-vw(13.44px) functions.get-vw(26.88px);
+      background: variables.$button-background;
+      border-radius: functions.get-vw(37px);
+      border: functions.get-vw(4px) solid transparent;
+      width: functions.get-vw(251px);
+      height: functions.get-vw(80px);
+      font-weight: 600;
+      font-size: functions.get-vw(26.88px);
+      line-height: 150%;
+      font-family: Poppins-Regular;
+      margin-bottom: functions.get-vw(30px);
+      box-sizing: border-box;
+      color: variables.$black-color;
+      &:focus {
+        background: variables.$button-background-focus;
+        border: functions.get-vw(4px) solid variables.$white-color1;
+        color: variables.$white-color1;
+      }
+    }
+    .indicator-wrapper {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      margin-left: functions.get-vw(10px);
+
+      .indicator {
+        background-color: variables.$white-color;
+        font-size: functions.get-vw(16px);
+        opacity: 0.3;
+        height: functions.get-vw(8px);
+        width: functions.get-vw(53.47px);
+        margin-right: functions.get-vw(20px);
+
+        &.active {
+          background-color: variables.$white-color;
+          opacity: 1;
+        }
+      }
+    }
+  }
+}

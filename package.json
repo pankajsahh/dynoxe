@@ -1,0 +1,60 @@
+{
+  "name": "ShowTv",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "pankaj sahu",
+  "scripts": {
+    "build": "rm -rf dist && webpack --config webpack.prod.config.js --mode production",
+    "build:watch": "webpack --config webpack.prod.config.js --watch --mode development"
+  },
+  "standard": {
+    "parser": "@typescript-eslint/parser",
+    "plugins": [
+      "@typescript-eslint/eslint-plugin"
+    ]
+  },
+  "dependencies": {
+    "@apollo/client": "^3.7.10",
+    "@babel/core": "^7.14.2",
+    "@babel/plugin-syntax-jsx": "^7.16.7",
+    "@babel/plugin-transform-runtime": "^7.25.9",
+    "@babel/preset-env": "^7.14.2",
+    "@babel/preset-react": "^7.13.13",
+    "@noriginmedia/norigin-spatial-navigation": "^2.2.2",
+    "axios": "^0.21.1",
+    "babel-loader": "^8.2.2",
+    "connected-react-router": "^6.9.1",
+    "css-loader": "^7.1.2",
+    "graphql": "^16.6.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-redux": "^7.2.4",
+    "react-router-dom": "^6.6.1",
+    "redux": "^4.1.0",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.3.0",
+    "uuid": "^11.0.3"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.14.2",
+    "@babel/preset-env": "^7.14.2",
+    "@types/react": "^17.0.5",
+    "@types/react-dom": "^17.0.5",
+    "babel-loader": "^8.2.2",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "copy-webpack-plugin": "^12.0.2",
+    "dotenv": "^16.4.7",
+    "file-loader": "^6.2.0",
+    "mini-css-extract-plugin": "2.4.5",
+    "sass": "^1.42.1",
+    "sass-loader": "^11.1.1",
+    "source-map-loader": "^2.0.1",
+    "style-loader": "^2.0.0",
+    "terser-webpack-plugin": "^5.3.0",
+    "ts-loader": "^9.1.2",
+    "url-loader": "^4.1.1",
+    "webpack": "^5.53.0",
+    "webpack-cli": "^4.8.0",
+    "webpack-merge": "^5.8.0"
+  }
+}

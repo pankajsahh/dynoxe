@@ -1,0 +1,30 @@
+@use "../../scss/functions.scss";
+.logout-page {
+  font-size: functions.get-vw(16px);
+  padding-top: functions.get-vw(150px);
+  box-sizing: border-box;
+  position: absolute;
+  left: 0;
+  top: 0;
+  .title {
+    font-size: functions.get-vw(30px);
+    font-family: Poppins-Bold;
+    font-weight: 700;
+    line-height: functions.get-vw(45px);
+    color: #f2f2f2;
+    position: relative;
+    left: 0;
+    top: 0;
+  }
+  .description {
+    position: relative;
+    left: 0;
+    top: 0;
+    font-size: functions.get-vw(26px);
+    font-family: Poppins-Regular;
+    font-weight: 400;
+    line-height: functions.get-vw(39px);
+    color: #f2f2f2;
+    width: 100%;
+  }
+}

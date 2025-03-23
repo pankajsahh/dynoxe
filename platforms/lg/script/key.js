@@ -1,0 +1,13 @@
+const KEY = {};
+KEY.LEFT = 37;
+KEY.UP = 38;
+KEY.RIGHT = 39;
+KEY.DOWN = 40;
+KEY.ENTER = 13;
+KEY.BACK = 461;
+KEY.KEY_BACK = 461;
+KEY.PAUSE = 19;
+KEY.PLAY = 415;
+KEY.STOP = 413;
+
+export default KEY;

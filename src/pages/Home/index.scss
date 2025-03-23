@@ -1,0 +1,27 @@
+@use "../../scss/functions.scss";
+
+* {
+  scrollbar-width: none;
+}
+*::-webkit-scrollbar {
+  width: 0px;
+}
+
+.home-page {
+  position: relative;
+  padding: 0;
+  font-size: 0.8333333333vw;
+  color: #fff;
+  font-family: sans-serif;
+  display: flex;
+  background-color: #151515;
+  width: 1216px;
+  
+  .error-message {
+    font-size: functions.get-vw(42px);
+    font-weight: 500;
+    color: #ffffff;
+    font-family: Poppins-SemiBold;
+    text-align: center;
+  }
+}

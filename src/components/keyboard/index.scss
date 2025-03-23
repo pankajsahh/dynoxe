@@ -1,0 +1,64 @@
+.keyboard {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  .NormalKeys{
+    width: 360px;
+    .keybordBtn {
+      width: 56px;
+      height: 64px;
+      margin: 0 4px 4px 0;
+      background: #2a3139;
+      color: white;
+      box-shadow: none;
+      outline: none;
+      border: 1.5px solid transparent;
+      font-family: Roboto;
+      font-size: 32px;
+      font-weight: 500;
+      line-height: 37.5px;
+      text-align: center;
+      text-underline-position: from-font;
+      text-decoration-skip-ink: none;
+    }
+  }
+
+  .commonKeys {
+    display: flex;
+
+    flex-wrap: wrap;
+    justify-content: center;
+    .keybordBtn {
+      width: 56px;
+      height: 64px;
+      margin: 0 4px 4px 0;
+      background: #2a3139;
+      color: white;
+      box-shadow: none;
+      outline: none;
+      border: 1.5px solid transparent;
+      font-family: Roboto;
+      font-size: 32px;
+      font-weight: 500;
+      line-height: 37.5px;
+      text-align: center;
+      text-underline-position: from-font;
+      text-decoration-skip-ink: none;
+      &.SPACE {
+        width: 176px;
+        height: 64px;
+        border-radius: 2px;
+      }
+      &.BACKSPACE {
+        width: 176px;
+        height: 64px;
+        border-radius: 2px;
+      }
+      &.SWITCH {
+        width: 354px;
+        height: 64px;
+        border-radius: 2px;
+      }
+    }
+  }
+}

@@ -1,0 +1,203 @@
+@use "../../scss/functions.scss";
+@use "../../scss/variables.scss";
+
+.series-details-page {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  .series-details-container {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-image: url("../../assets/images/series-gradient.png");
+    padding: functions.get-vw(50px) functions.get-vw(60px);
+    box-sizing: border-box;
+    .logo {
+      background-image: url("../../assets/images/mahua-menu.png");
+      width: functions.get-vw(398px);
+      height: functions.get-vw(36.74px);
+      position: relative;
+      background-size: contain;
+      background-position: left;
+      background-repeat: no-repeat;
+      //   margin-bottom: functions.get-vw(20px);
+    }
+    .series-name {
+      position: relative;
+      top: functions.get-vw(20px);
+      font-size: functions.get-vw(40px);
+      font-weight: 600;
+      font-family: Poppins-Bold;
+      color: #f2f2f2;
+      //   background-color: red;
+      display: flex;
+      flex-direction: column;
+      width: 50%;
+      height: functions.get-vw(180px);
+      overflow: hidden;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      line-clamp: 3;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      margin-bottom: functions.get-vw(10px);
+    }
+    .badge-list {
+      position: relative;
+      top: functions.get-vw(20px);
+      font-size: functions.get-vw(24px);
+      height: functions.get-vw(60px);
+      //   background-color: red;
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      justify-content: center;
+      width: 50%;
+      margin-bottom: functions.get-vw(10px);
+    }
+    .series-description {
+      position: relative;
+      font-size: functions.get-vw(24px);
+      font-weight: 600;
+      font-family: Poppins-Bold;
+      color: #f2f2f2;
+      //   background-color: red;
+      display: flex;
+      flex-direction: column;
+      width: 50%;
+      height: functions.get-vw(180px);
+      overflow: hidden;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      line-clamp: 3;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      margin-bottom: functions.get-vw(20px);
+    }
+    .button-container {
+      height: auto;
+      min-height: 200px;
+      width: 30%;
+      //   background-color: gray;
+      display: flex;
+      flex-direction: column;
+      .btn {
+        font-size: functions.get-vw(26px);
+        font-weight: 500;
+        font-family: Poppins-Regular;
+        line-height: functions.get-vw(41.06px);
+        font-style: normal;
+        align-items: flex-start;
+        color: $white-color;
+        width: auto;
+        padding: functions.get-vw(15px) functions.get-vw(30px) functions.get-vw(15px) functions.get-vw(30px);
+        background: transparent;
+        text-transform: capitalize;
+        border: functions.get-vw(2px) solid transparent;
+        margin-bottom: functions.get-vw(5px);
+        box-sizing: border-box;
+        border-radius: functions.get-vw(55.99px);
+        flex: none;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        &.subscribe {
+          // background: linear-gradient(45deg, #971a64, #680f79);
+          background: $button-gray;
+          border-radius: functions.get-vw(55.99px);
+          position: relative;
+          color: $black-color;
+          &:focus {
+            border: functions.get-vw(2px) solid $background-red;
+            background: $background-red !important;
+            color: $white-color;
+          }
+        }
+        &.play {
+          padding: functions.get-vw(15px) functions.get-vw(50px) functions.get-vw(15px) functions.get-vw(70px);
+          position: relative;
+          .icon {
+            width: functions.get-vw(30px);
+            height: functions.get-vw(30px);
+            background-image: url("../../assets/images/play_btn.svg");
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            position: absolute;
+            left: functions.get-vw(26px);
+            top: functions.get-vw(22px);
+          }
+          &:focus {
+            .icon {
+              width: functions.get-vw(30px);
+              height: functions.get-vw(30px);
+              background-image: url("../../assets/images/play_btn.svg");
+            }
+            border: functions.get-vw(2px) solid $background-red;
+            background: $background-red !important;
+            color: $white-color;
+          }
+        }
+        &.add {
+          padding: functions.get-vw(15px) functions.get-vw(50px) functions.get-vw(15px) functions.get-vw(70px);
+          position: relative;
+          .icon {
+            width: functions.get-vw(30px);
+            height: functions.get-vw(30px);
+            background-image: url("../../assets/images/add.svg");
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            position: absolute;
+            left: functions.get-vw(26px);
+            top: functions.get-vw(20px);
+          }
+          &:focus {
+            .icon {
+              background-image: url("../../assets/images/add_active.svg");
+            }
+          }
+        }
+        &.added {
+          padding: functions.get-vw(15px) functions.get-vw(50px) functions.get-vw(15px) functions.get-vw(70px);
+          position: relative;
+          .icon {
+            width: functions.get-vw(35px);
+            height: functions.get-vw(35px);
+            background-image: url("../../assets/images/add.svg");
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            position: absolute;
+            left: functions.get-vw(26px);
+            top: functions.get-vw(19px);
+            -webkit-transform: rotate(45deg);
+            transform: rotate(45deg);
+          }
+          &:focus {
+            .icon {
+              background-image: url("../../assets/images/add_active.svg");
+            }
+          }
+        }
+        &:focus {
+          border: functions.get-vw(2px) solid $background-red;
+          background: $background-red !important;
+          color: $white-color;
+        }
+      }
+    }
+  }
+}

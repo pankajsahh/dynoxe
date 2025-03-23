@@ -1,0 +1,94 @@
+@use "../../scss/functions.scss";
+@use "../../scss/variables.scss";
+.my-account-page {
+  font-size: functions.get-vw(16px);
+  padding-top: functions.get-vw(150px);
+  box-sizing: border-box;
+  position: relative;
+  left: 0;
+  top: 0;
+  .title {
+    font-size: functions.get-vw(30px);
+    font-family: Poppins-Bold;
+    font-weight: 700;
+    line-height: functions.get-vw(45px);
+    color: variables.$white-color1;
+    position: relative;
+    left: 0;
+    top: 0;
+  }
+  .field-wrapper {
+    position: relative;
+    left: 0;
+    top: 0;
+    display: flex;
+    flex-direction: row;
+    .field-name {
+      font-size: functions.get-vw(26px);
+      font-family: Poppins-Regular;
+      font-weight: 400;
+      line-height: functions.get-vw(39px);
+      color: variables.$white-color1;
+      margin-right: functions.get-vw(20px);
+    }
+    .field-value {
+      font-size: functions.get-vw(26px);
+      font-family: Poppins-Regular;
+      font-weight: 400;
+      line-height: functions.get-vw(39px);
+      color: variables.$white-color1;
+    }
+  }
+
+  .description {
+    position: relative;
+    left: 0;
+    top: 0;
+    font-size: functions.get-vw(26px);
+    font-family: Poppins-Regular;
+    font-weight: 400;
+    line-height: functions.get-vw(39px);
+    color: variables.$white-color1;
+    width: 85%;
+  }
+  .subscription-btn {
+    font-size: functions.get-vw(26px);
+    font-weight: 500;
+    font-family: Poppins-Regular;
+    line-height: functions.get-vw(41.06px);
+    font-style: normal;
+    align-items: center;
+    color: variables.$white-color1;
+    width: functions.get-vw(286px);
+    padding: functions.get-vw(15px) functions.get-vw(30px) functions.get-vw(15px) functions.get-vw(30px);
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+    text-transform: capitalize;
+    border: 2px solid transparent;
+    margin-top: functions.get-vw(50px);
+    box-sizing: border-box;
+    background: variables.$button-background;
+    color: variables.$black-color;
+    border-radius: functions.get-vw(55.99px);
+    position: relative;
+    text-align: center;
+    &:focus {
+      background: variables.$button-background-focus;
+      color: variables.$white-color1;
+      border: 2px solid variables.$white-color1;
+    }
+  }
+}
+.free-pass {
+  margin-top: functions.get-vw(5px);
+  border-top: functions.get-vw(2px) solid variables.$white-color;
+  height: auto;
+  width: 80%;
+  padding: functions.get-vw(5px) functions.get-vw(10px) functions.get-vw(20px) functions.get-vw(5px);
+  position: relative;
+  font-size: functions.get-vw(30px);
+  font-family: "Poppins-Regular";
+  position: relative;
+  span {
+    font-family: "Poppins-SemiBold";
+  }
+}

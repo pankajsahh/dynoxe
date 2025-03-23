@@ -1,0 +1,189 @@
+.movie-details-page {
+  position: relative;
+  padding-top: 18px;
+  font-size: 0.8333333333vw;
+  color: #fff;
+  font-family: sans-serif;
+  display: flex;
+  flex-direction: column;
+  background-color: #151515;
+  width: 1280px;
+
+  .movie-details-container {
+    display: flex;
+    justify-content: space-around;
+    height: 360px;
+    .imageCover {
+      position: relative;
+      img {
+        object-fit: contain;
+      }
+      .resumeTimeLine {
+        background: #da513d;
+        height: 5px;
+        position: absolute;
+        bottom: 0px;
+        left: 0px;
+      }
+    }
+
+    .Information {
+      display: flex;
+      width: 912px;
+      height: max-content;
+      max-height: 360px;
+      .basicInfo {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        flex: 1;
+        .header {
+          .title {
+            font-family: Inter;
+            font-size: 40px;
+            font-weight: 700;
+            line-height: 48.41px;
+            text-align: left;
+            text-underline-position: from-font;
+            text-decoration-skip-ink: none;
+
+            display: -webkit-box;
+            -webkit-line-clamp: 2; /* Limit to 2 lines */
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            word-break: break-word; /* Ensures words break properly */
+            max-width: 100%; 
+
+          }
+          .subtitle {
+            font-family: Inter;
+            font-size: 16px;
+            font-weight: 500;
+            line-height: 24px;
+            text-align: left;
+            text-underline-position: from-font;
+            text-decoration-skip-ink: none;
+          }
+        }
+
+        .description {
+          display: -webkit-box;
+          -webkit-line-clamp: 6; 
+          -webkit-box-orient: vertical;
+          text-overflow: ellipsis;
+          word-break: break-word; 
+          font-family: Inter;
+          font-size: 16px;
+          font-weight: 400;
+          line-height: 24px;
+          overflow: hidden;
+          text-align: left;
+          text-underline-position: from-font;
+          text-decoration-skip-ink: none;
+      
+        }
+        .buttonsContainer {
+          display: flex;
+          .watchNowBtn {
+            width: 191px;
+            height: 56px;
+            border: none;
+            background: #da513d;
+            font-style: normal;
+            // font-weight: 600;
+            font-size: 12px;
+            line-height: 16px;
+            color: #ffffff;
+            border-radius: 4px;
+            margin-top: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            &.focused {
+              // font-weight: 600;
+              font-size: 13px;
+            }
+          }
+          .LikeBtn {
+            width: 54px;
+            height: 54px;
+            border: none;
+            background: transparent;
+            font-style: normal;
+            // font-weight: 600;
+            font-size: 12px;
+            line-height: 16px;
+            color: #ffffff;
+            border-radius: 4px;
+            margin-top: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-left: 10px;
+            border: 0.5px solid white;
+            img {
+              width: 16px;
+              height: 16px;
+            }
+            &.button-focused {
+              // font-weight: 600;
+              img {
+                width: 20px;
+                height: 20px;
+              }
+              font-size: 13px;
+            }
+            &.Liked {
+              background: #da513d;
+            }
+          }
+        }
+      }
+      .imdbInfo {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: flex-end;
+        flex: 1;
+        .imdbRating {
+          font-family: Inter;
+          font-size: 20px;
+          font-weight: 700;
+          line-height: 24.2px;
+          text-align: left;
+          text-underline-position: from-font;
+          text-decoration-skip-ink: none;
+          .imdblogo {
+            background: #f6c700;
+            color: black;
+            padding: 3px 5px 3px 6px;
+            font-family: sans-serif;
+            border-radius: 4px;
+          }
+        }
+        .translatedDescription {
+          font-family: Inter;
+          font-size: 16px;
+          font-weight: 400;
+          line-height: 24px;
+          text-align: right;
+          text-underline-position: from-font;
+          text-decoration-skip-ink: none;
+        }
+      }
+    }
+  }
+  .you-may-like-container {
+    display: flex;
+    flex-direction: column;
+    overflow: scroll;
+    .trayModule {
+      padding-top: 10px;
+      padding-left: 30px;
+    }
+    .you-may-like-list .list-item {
+      border-radius: 8px;
+    }
+  }
+}

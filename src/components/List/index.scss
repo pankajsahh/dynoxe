@@ -1,0 +1,26 @@
+@use "../../scss/functions.scss";
+.trayModule{
+  display: flex;
+  flex-direction: column;
+  padding-top: 30px ;
+  padding-left: 20px;
+  .list-wrapper {
+    background: #151515;
+    display: flex;
+    font-size: functions.get-vw(16px);
+    justify-content: start;
+    align-items: start;
+    overflow: scroll;
+    width: 100%;
+  }
+  .tray-title{
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 24px;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+    margin: 10px  0px;
+  }
+  
+}
