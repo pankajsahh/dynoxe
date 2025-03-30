@@ -11,7 +11,7 @@ import {
   setAppConfig,
   setAppLanguage,
 } from "../../modules/common/common.actions";
-import splashIcon from "../../assets/image/cover.svg";
+import splashIcon from "../../assets/clientImages/splash.png";
 import CONSTANTS from "../../utils/constant";
 import "./index.scss";
 import { getlocaliseText } from "../../utils/localisation";

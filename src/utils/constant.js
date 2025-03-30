@@ -8,7 +8,8 @@ import settings from "../assets/images/settings.svg";
 import { getlocaliseText } from "./localisation";
 
 const CONSTANTS = {};
-CONSTANTS.BASE_URL = "https://active.showflix.live/api";
+CONSTANTS.BASE_URL = "https://dynoxe.com/Apis";
+CONSTANTS.siteName = "dynoxe";
 CONSTANTS.MESSAGE = getlocaliseText("logOutPopUpMessages",{
   EXIT_MESSAGE: "Do you want to exit?",
   LOGOUT_MESSAGE: "Are you sure you want to log out?",

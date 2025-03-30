@@ -11,6 +11,7 @@ import ListContainer from "../../components/ListContainer/ListContainer";
 
 const Home = () => {
   const { pageData, loading, error } = usePageData(`${CONSTANTS.BASE_URL}/common/home`);
+  console.log(pageData);
   const [exitPopup, setExitPopup] = useState(false);
   const { ref, focusKey } = useFocusable({})
   const listItemRef = useRef();
@@ -46,7 +47,7 @@ const Home = () => {
         <div ref={ref} className={`home-page`}>
           {pageData && (
             <ListContainer
-            listData={pageData}
+            listData={pageData.data}
             isFocused={true}
             />
           )}

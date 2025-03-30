@@ -11,6 +11,7 @@ import RecentListItem, {
   FavSeriesListItem,
 } from "../ListItem/recentListItem";
 import BannerListItem from "../ListItem/ListItem";
+import Slider from "../ListItem/slider";
 
 const List = (props) => {
   const {
@@ -62,43 +63,10 @@ const List = (props) => {
         <div ref={scrollingRef} className={`list-wrapper ${trayClassName}`}>
           {listData?.length &&
             listData?.map((item, index) => {
-              if (trayItemType == "banner") {
+              if (trayItemType == "sliderdata") {
                 return (
                   <Fragment key={index}>
-                    <BannerListItem
-                      itemIndex={index}
-                      listData={item}
-                      focusHandler={onRowFocus}
-                      isFocused={isFocused && index == 0 ? true : false}
-                    />
-                  </Fragment>
-                );
-              } else if (trayItemType == "FavLive") {
-                return (
-                  <Fragment key={index}>
-                    <FavLiveListItem
-                      itemIndex={index}
-                      listData={item}
-                      focusHandler={onRowFocus}
-                      isFocused={isFocused && index == 0 ? true : false}
-                    />
-                  </Fragment>
-                );
-              } else if (trayItemType == "FavMovies") {
-                return (
-                  <Fragment key={index}>
-                    <FavMovieListItem
-                      itemIndex={index}
-                      listData={item}
-                      focusHandler={onRowFocus}
-                      isFocused={isFocused && index == 0 ? true : false}
-                    />
-                  </Fragment>
-                );
-              } else if (trayItemType == "FavSeries") {
-                return (
-                  <Fragment key={index}>
-                    <FavSeriesListItem
+                    <Slider
                       itemIndex={index}
                       listData={item}
                       focusHandler={onRowFocus}

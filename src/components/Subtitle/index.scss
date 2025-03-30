@@ -11,7 +11,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: Poppins-Regular;
+  font-family: "Poppins";
   .wrapper {
     // background: #1d1c1c;
     width: auto;
@@ -39,7 +39,7 @@
       box-sizing: border-box;
       li {
         padding: functions.get-vw(10px) functions.get-vw(36px) functions.get-vw(10px) functions.get-vw(36px);
-        font-family: Poppins-Regular;
+        font-family: "Poppins";
         font-style: normal;
         font-weight: 600;
         font-size: functions.get-vw(26.8801px);

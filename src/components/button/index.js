@@ -40,7 +40,6 @@ export const FocusableButton = ({
           ? className + " button-focused"
           : className + " button-secondary"
       }
-      style={focused ? { border: "1px solid #fff" } : {}}
       onClick={onClick}
       ref={ref}
     >

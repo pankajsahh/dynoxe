@@ -65,7 +65,7 @@
         font-size: functions.get-vw(16px);
       }
       .text {
-        font-family: Poppins-Regular;
+        font-family: "Poppins";
         font-style: normal;
         font-weight: 400;
         font-size: functions.get-vw(30px);
@@ -97,7 +97,7 @@
     left: functions.get-vw(210px);
     top: functions.get-vw(392px);
     .title {
-      font-family: Poppins-Bold;
+      font-family: "Poppins";
       font-style: normal;
       font-weight: 700;
       font-size: functions.get-vw(64px);
@@ -106,7 +106,7 @@
       margin-bottom: functions.get-vw(30px);
     }
     .sub-title {
-      font-family: Poppins-Regular;
+      font-family: "Poppins";
       font-style: normal;
       font-weight: 400;
       font-size: functions.get-vw(42px);
@@ -121,7 +121,7 @@
       opacity: 0.9;
       border: functions.get-vw(4px) solid transparent;
       border-radius: functions.get-vw(55.9941px);
-      font-family: Poppins-Regular;
+      font-family: "Poppins";
       font-style: normal;
       font-weight: 500;
       font-size: functions.get-vw(26px);

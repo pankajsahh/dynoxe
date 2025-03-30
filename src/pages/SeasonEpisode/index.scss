@@ -49,7 +49,7 @@
           top: functions.get-vw(20px);
           font-size: functions.get-vw(40px);
           font-weight: 600;
-          font-family: Poppins-Bold;
+          font-family: "Poppins";
           color: #f2f2f2;
           //   background-color: red;
           display: flex;
@@ -114,7 +114,7 @@
               line-height: functions.get-vw(33.6px);
               font-weight: 500;
               color: #f2f2f2;
-              font-family: Poppins-Regular;
+              font-family: "Poppins";
               position: absolute;
               left: functions.get-vw(16px);
             }
@@ -123,7 +123,7 @@
               line-height: functions.get-vw(33.6px);
               font-weight: 500;
               color: #f2f2f2;
-              font-family: Poppins-Regular;
+              font-family: "Poppins";
               position: absolute;
               right: functions.get-vw(14px);
             }
@@ -149,7 +149,7 @@
         justify-content: center;
         font-size: functions.get-vw(28px);
         color: #ffffff;
-        font-family: Poppins-Regular;
+        font-family: "Poppins";
         font-weight: 600;
         background-image: url("../../assets/images/series-title-gradient.png");
         background-position: center;
@@ -246,7 +246,7 @@
                 line-height: functions.get-vw(33.8px);
                 font-weight: 700;
                 color: #ffffff;
-                font-family: Poppins-Bold;
+                font-family: "Poppins";
                 margin-bottom: functions.get-vw(10px);
               }
               .episode-description {
@@ -254,7 +254,7 @@
                 line-height: functions.get-vw(31.2px);
                 font-weight: 400;
                 color: #ffffff;
-                font-family: Poppins-Regular;
+                font-family: "Poppins";
                 margin-bottom: functions.get-vw(10px);
                 text-overflow: ellipsis;
                 display: -webkit-box;
@@ -270,7 +270,7 @@
                 line-height: functions.get-vw(28.6px);
                 font-weight: 700;
                 color: #ffffff;
-                font-family: Poppins-Bold;
+                font-family: "Poppins";
                 margin-bottom: functions.get-vw(10px);
               }
             }

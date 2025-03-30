@@ -3,9 +3,14 @@
 
 .list-item {
   display: flex;
-  border: 1.5px solid transparent;
+  img {
+    border: 2.5px solid transparent;
+  }
+
   &.focused {
-    border: 1.5px solid white;
+    img {
+      border: 2.5px solid #179efb;
+    }
   }
   &.banner {
     position: relative;
@@ -44,17 +49,35 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        &.focused{
+        &.focused {
           // font-weight: 600;
           font-size: 13px;
         }
       }
     }
   }
-  &.recent{
+  &.recent {
     position: relative;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    img {
+      border-radius: 7px;
+    }
+    .title {
+      font-family: "Poppins";
+      font-size: 18px;
+      font-weight: 500;
+      line-height: 16px;
+      text-align: start;
+
+      text-underline-position: from-font;
+      text-decoration-skip-ink: none;
+      margin: 10px 0px;
+      margin-left: 8px;
+    }
   }
-  .watchedLine{
+  .watchedLine {
     background: #da513d;
     height: 5px;
     position: absolute;

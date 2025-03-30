@@ -9,7 +9,7 @@
   top: 0;
   .title {
     font-size: functions.get-vw(30px);
-    font-family: Poppins-Bold;
+    font-family: "Poppins";
     font-weight: 700;
     line-height: functions.get-vw(45px);
     color: variables.$white-color1;
@@ -25,7 +25,7 @@
     flex-direction: row;
     .field-name {
       font-size: functions.get-vw(26px);
-      font-family: Poppins-Regular;
+      font-family: "Poppins";
       font-weight: 400;
       line-height: functions.get-vw(39px);
       color: variables.$white-color1;
@@ -33,7 +33,7 @@
     }
     .field-value {
       font-size: functions.get-vw(26px);
-      font-family: Poppins-Regular;
+      font-family: "Poppins";
       font-weight: 400;
       line-height: functions.get-vw(39px);
       color: variables.$white-color1;
@@ -45,7 +45,7 @@
     left: 0;
     top: 0;
     font-size: functions.get-vw(26px);
-    font-family: Poppins-Regular;
+    font-family: "Poppins";
     font-weight: 400;
     line-height: functions.get-vw(39px);
     color: variables.$white-color1;
@@ -54,7 +54,7 @@
   .subscription-btn {
     font-size: functions.get-vw(26px);
     font-weight: 500;
-    font-family: Poppins-Regular;
+    font-family: "Poppins";
     line-height: functions.get-vw(41.06px);
     font-style: normal;
     align-items: center;
@@ -86,7 +86,7 @@
   padding: functions.get-vw(5px) functions.get-vw(10px) functions.get-vw(20px) functions.get-vw(5px);
   position: relative;
   font-size: functions.get-vw(30px);
-  font-family: "Poppins-Regular";
+  font-family: "Poppins";
   position: relative;
   span {
     font-family: "Poppins-SemiBold";

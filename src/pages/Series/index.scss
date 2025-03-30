@@ -37,7 +37,7 @@
       top: functions.get-vw(20px);
       font-size: functions.get-vw(40px);
       font-weight: 600;
-      font-family: Poppins-Bold;
+      font-family: "Poppins";
       color: #f2f2f2;
       //   background-color: red;
       display: flex;
@@ -70,7 +70,7 @@
       position: relative;
       font-size: functions.get-vw(24px);
       font-weight: 600;
-      font-family: Poppins-Bold;
+      font-family: "Poppins";
       color: #f2f2f2;
       //   background-color: red;
       display: flex;
@@ -96,7 +96,7 @@
       .btn {
         font-size: functions.get-vw(26px);
         font-weight: 500;
-        font-family: Poppins-Regular;
+        font-family: "Poppins";
         line-height: functions.get-vw(41.06px);
         font-style: normal;
         align-items: flex-start;

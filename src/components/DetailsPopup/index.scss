@@ -13,7 +13,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  font-family: Poppins-Regular;
+  font-family: "Poppins";
   &::before {
     content: "";
     position: absolute;
@@ -45,7 +45,7 @@
         font-family: Poppins-SemiBold;
         .company {
           font-weight: 400;
-          font-family: Poppins-Regular;
+          font-family: "Poppins";
           // padding-left: functions.get-vw(15px);
         }
       }
@@ -69,7 +69,7 @@
         font-size: functions.get-vw(26px);
         line-height: functions.get-vw(39px);
         font-weight: 400;
-        font-family: Poppins-Regular;
+        font-family: "Poppins";
         flex: none;
         overflow: scroll;
       }
@@ -97,7 +97,7 @@
           flex-direction: row;
           align-items: center;
           .time {
-            font-family: Poppins-Regular;
+            font-family: "Poppins";
             font-style: normal;
             font-weight: 400;
             font-size: functions.get-vw(26.9915px);
@@ -109,7 +109,7 @@
             border: functions.get-vw(4px) solid transparent;
           }
           .age-rating {
-            font-family: Poppins-Regular;
+            font-family: "Poppins";
             font-style: normal;
             font-weight: 400;
             font-size: functions.get-vw(26.9915px);
@@ -131,7 +131,7 @@
 
         .cast-crew-details {
           flex: none;
-          font-family: Poppins-Regular;
+          font-family: "Poppins";
           font-style: normal;
           font-weight: 400;
           font-size: functions.get-vw(26.9915px);
@@ -157,7 +157,7 @@
       .trial-message {
         margin-right: functions.get-vw(20px);
         width: functions.get-vw(207px);
-        font-family: Poppins-Regular;
+        font-family: "Poppins";
         font-style: normal;
         font-weight: 400;
         font-size: functions.get-vw(22px);
@@ -167,7 +167,7 @@
       .btn {
         font-size: functions.get-vw(26px);
         font-weight: 500;
-        font-family: Poppins-Regular;
+        font-family: "Poppins";
         line-height: functions.get-vw(41.06px);
         font-style: normal;
         align-items: center;

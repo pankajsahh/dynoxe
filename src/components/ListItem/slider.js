@@ -3,13 +3,13 @@ import "./index.scss";
 import placeholder from "../../assets/image/placeholder.svg";
 import { useFocusable } from "@noriginmedia/norigin-spatial-navigation";
 import { useNavigate } from "react-router-dom";
-const RecentListItem = ({ listData, focusHandler, isFocused, itemIndex }) => {
-
+const Slider = ({ listData, focusHandler, isFocused, itemIndex }) => {
+  let videoData = listData?.episode || listData?.movie;
   let videoType = listData?.type
-    console.log(listData,videoType);
+    console.log(listData);
   let cardWidth = 240;
   let watchedTime = listData.seconds;
-  let totalTime = listData?.duration;
+  let totalTime = videoData?.duration;
   let watchPercentage =
     isNaN(watchedTime) || isNaN(totalTime) || totalTime === 0
       ? 0
@@ -27,7 +27,7 @@ const RecentListItem = ({ listData, focusHandler, isFocused, itemIndex }) => {
   const clickHandler = () => {
     navigate(`/${videoType}Details`, {
       state: {
-        id: listData.id,
+        id: videoData.id,
         type: videoType,
       },
     });
@@ -37,7 +37,7 @@ const RecentListItem = ({ listData, focusHandler, isFocused, itemIndex }) => {
       focusSelf();
     }
   }, [focusSelf]);
-  let imgUrl = listData.image
+
   return (
     <div
       ref={ref}
@@ -48,7 +48,7 @@ const RecentListItem = ({ listData, focusHandler, isFocused, itemIndex }) => {
       <img
         width={cardWidth}
         height={135}
-        src={imgUrl || placeholder}
+        src={videoData?.poster_image || placeholder}
         onError={({ currentTarget }) => {
           currentTarget.onerror = null; // prevents looping
           currentTarget.src = placeholder;
@@ -56,7 +56,6 @@ const RecentListItem = ({ listData, focusHandler, isFocused, itemIndex }) => {
         loading="lazy"
         alt="..."
       />
-        {listData?.title&& <div className="title">{listData.title}</div>}
       <div
         style={{ width: cardWidth * watchPercentage + "px" }}
         className="watchedLine"
@@ -65,4 +64,4 @@ const RecentListItem = ({ listData, focusHandler, isFocused, itemIndex }) => {
   );
 };
 
-export default memo(RecentListItem);
+export default memo(Slider);

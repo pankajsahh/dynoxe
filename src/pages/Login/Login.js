@@ -6,6 +6,7 @@ import KEY from "../../utils/key";
 import { setAuthInfo } from "../../modules/auth/auth.action";
 import { showMenu, setSelectedMenu } from "../../modules/menu/menu.action";
 import logo from "../../assets/image/BrandLogo.svg";
+import AuthBG from "../../assets/clientImages/AuthBG.png";
 import { setAppConfig } from "../../modules/common/common.actions";
 import { TextBox } from "../../components/textBox";
 import {
@@ -18,6 +19,7 @@ import { getApi } from "../../utils/api";
 import { uuid } from "../../utils/util";
 import CONSTANTS from "../../utils/constant";
 import Popup from "../../components/Popup";
+import axios from "axios";
 const Login = (props) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -26,7 +28,23 @@ const Login = (props) => {
   const { ref, focusKey, focusSelf } = useFocusable({
     trackChildren: true,
   });
-  const [loginCode, setLoginCode] = useState("");
+  const [isSignUpPage, setSignUpPage] = useState(false);
+  let dummy = {
+    emailid: "pankajsahu@gm.com",
+    fullname: "panakj",
+    mnumber: "",
+    mobile: "8010011556",
+    pwd: "9899819133",
+  };
+  const [AuthData, setAuthData] = useState(
+    dummy || {
+      fullname: "",
+      emailid: "",
+      mobile: "",
+      pwd: "",
+      mnumber: "",
+    }
+  );
   const [Error, setError] = useState(null);
   useEffect(() => {
     focusSelf();
@@ -48,32 +66,46 @@ const Login = (props) => {
         break;
     }
   };
-  const qrCodeWrapperRef = useRef();
-  const subscriptionUrl = "https://pankajsahh.netlify.app";
+
   useEffect(() => {
-    const qrcode = new window.QRCode(qrCodeWrapperRef.current);
-    qrcode.makeCode(`${subscriptionUrl}`);
     document.addEventListener("keydown", onkeydownOnthisPage);
     return () => {
       document.removeEventListener("keydown", onkeydownOnthisPage);
     };
   }, []);
-  const validateCode = async () => {
-    let url = `${CONSTANTS.BASE_URL}/check`;
-    let response = getApi(url, {
-      uuid: uuid(),
-      code: loginCode,
-    });
-    response = await response;
-    console.log(response,"res");
-    // response = JSON.parse(response);
-    if (response?.status == true) {
-      let data = { ...response, isLogin: true };
-      localStorage.setItem("show_tv_login_data", JSON.stringify(data));
-      dispatch(setAuthInfo(data));
-      navigate("/home");
-    } else {
-      setError(response?.message);
+  const AuthHandler = async () => {
+    console.log(AuthData, "aaknoi");
+    let url = `${CONSTANTS.BASE_URL}/login`;
+    if (isSignUpPage) {
+      url = `${CONSTANTS.BASE_URL}/register`;
+    }
+    const formdata = new FormData();
+    for (let key in AuthData) {
+      if (AuthData[key]) {
+        formdata.append(key, AuthData[key]);
+      }
+    }
+    try {
+      const response = await axios.post(url, formdata, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      console.log(response.data, "res");
+
+      if (response?.status == true) {
+        let data = { ...response, isLogin: true };
+        localStorage.setItem(
+          CONSTANTS.siteName + "_login_data",
+          JSON.stringify(data)
+        );
+        dispatch(setAuthInfo(data));
+        navigate("/home");
+      } else {
+        setError(response?.message);
+      }
+    } catch (error) {
+      console.error(error.response?.data || error.message, "error");
     }
   };
   const popupCallback = (type) => {
@@ -84,43 +116,145 @@ const Login = (props) => {
         break;
     }
   };
-  return (
-    <div className="login-container" ref={ref}>
-      <img
-        src={logo}
-        style={{ marginTop: "40px" }}
-        alt="logo"
-        width={"716"}
-        height={"214"}
-      />
 
+  return (
+    <div
+      style={{ backgroundImage: `url(${AuthBG})`, backgroundSize: "contain" }}
+      className="login-container"
+      ref={ref}
+    >
       <FocusContext.Provider value={focusKey}>
         <div
           style={{ display: "flex", flexDirection: "column", gap: "20px" }}
           className="input-wrapper"
         >
+          <div className="title">Sign In</div>
+          {isSignUpPage && (
+            <TextBox
+              className="CodeInput"
+              placeholder={"Full Name"}
+              isFocused={true}
+              value={AuthData.fullname}
+              onChange={(value) => {
+                setAuthData((state) => {
+                  return { ...state, fullname: value };
+                });
+              }}
+              type="text"
+            />
+          )}
+          {!isSignUpPage && (
+            <TextBox
+              className="CodeInput"
+              placeholder={"Email or Phone Number"}
+              isFocused={true}
+              value={AuthData.mnumber}
+              onChange={(value) => {
+                setAuthData((state) => {
+                  return { ...state, mnumber: value };
+                });
+              }}
+              type="text"
+            />
+          )}
+          {isSignUpPage && (
+            <TextBox
+              className="CodeInput"
+              placeholder={"Enter Email"}
+              isFocused={false}
+              value={AuthData.emailid}
+              onChange={(value) => {
+                setAuthData((state) => {
+                  return { ...state, emailid: value };
+                });
+              }}
+              type="text"
+            />
+          )}
+          {isSignUpPage && (
+            <TextBox
+              className="CodeInput"
+              placeholder={"Phone Number"}
+              isFocused={false}
+              value={AuthData.mobile}
+              onChange={(value) => {
+                setAuthData((state) => {
+                  return { ...state, mobile: value };
+                });
+              }}
+              type="text"
+            />
+          )}
           <TextBox
-            focusKey={"CodeInput"}
             className="CodeInput"
-            placeholder={"Please insert the 10 digit code to login"}
-            isFocused={true}
-            value={loginCode}
-            onChange={setLoginCode}
+            placeholder={"password"}
+            isFocused={false}
+            value={AuthData.pwd}
+            onChange={(value) => {
+              setAuthData((state) => {
+                return { ...state, pwd: value };
+              });
+            }}
             type="text"
-          /> 
-          <FocusableButton
-            className="CodeSubmit"
-            focusKey={"submitBtn"}
-            onClick={validateCode}
-          >
-            Submit
-          </FocusableButton>
+          />
+          {!isSignUpPage ? (
+            <>
+              <FocusableButton
+                className="CodeSubmit"
+                onClick={() => {
+                  if (isSignUpPage) {
+                    setSignUpPage(false);
+                  } else {
+                    AuthHandler();
+                  }
+                }}
+              >
+                Log In
+              </FocusableButton>
+              <FocusableButton
+                className="CodeSubmit"
+                onClick={() => {
+                  if (!isSignUpPage) {
+                    setSignUpPage(true);
+                  } else {
+                    AuthHandler();
+                  }
+                }}
+              >
+                Sign Up
+              </FocusableButton>
+            </>
+          ) : (
+            <>
+              <FocusableButton
+                className="CodeSubmit"
+                onClick={() => {
+                  if (!isSignUpPage) {
+                    setSignUpPage(true);
+                  } else {
+                    AuthHandler();
+                  }
+                }}
+              >
+                Sign Up
+              </FocusableButton>
+              <FocusableButton
+                className="CodeSubmit"
+                onClick={() => {
+                  if (isSignUpPage) {
+                    setSignUpPage(false);
+                  } else {
+                    AuthHandler();
+                  }
+                }}
+              >
+                Log In
+              </FocusableButton>
+            </>
+          )}
         </div>
       </FocusContext.Provider>
 
-      <div className="qrcode-container">
-        <div className="qrcode-wrapper" ref={qrCodeWrapperRef}></div>
-      </div>
       {Error != null && (
         <Popup
           message={Error}
