@@ -5,13 +5,8 @@ import {
   useFocusable,
 } from "@noriginmedia/norigin-spatial-navigation";
 import { oldESscrollTo } from "../../utils/util";
-import RecentListItem, {
-  FavLiveListItem,
-  FavMovieListItem,
-  FavSeriesListItem,
-} from "../ListItem/recentListItem";
-import BannerListItem from "../ListItem/ListItem";
-import Slider from "../ListItem/slider";
+import RecentListItem from "../ListItem/recentListItem";
+import { SliderItem } from "../ListItem/slider";
 
 const List = (props) => {
   const {
@@ -53,7 +48,7 @@ const List = (props) => {
   return (
     <FocusContext.Provider value={focusKey}>
       <div
-        style={trayindex > 0 ? { paddingBottom: "20px" } : {}}
+        style={trayindex > 0 ? { paddingBottom: "20px" } : {paddingTop:"0px"}}
         className={`trayModule`}
         ref={ref}
       >
@@ -66,8 +61,9 @@ const List = (props) => {
               if (trayItemType == "sliderdata") {
                 return (
                   <Fragment key={index}>
-                    <Slider
+                    <SliderItem
                       itemIndex={index}
+                      totalItems ={listData?.length}
                       listData={item}
                       focusHandler={onRowFocus}
                       isFocused={isFocused && index == 0 ? true : false}

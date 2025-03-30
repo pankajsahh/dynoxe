@@ -89,12 +89,6 @@ module.exports = {
           },
           {
             context: "./src/",
-            from: "./splash.mp4",
-            to: path.resolve(__dirname, "./dist/"),
-            force: true,
-          },
-          {
-            context: "./src/",
             from: "./lib/**.*",
             to: path.resolve(__dirname, "./dist/"),
             force: true,

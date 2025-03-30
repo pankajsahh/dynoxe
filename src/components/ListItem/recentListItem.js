@@ -4,9 +4,7 @@ import placeholder from "../../assets/image/placeholder.svg";
 import { useFocusable } from "@noriginmedia/norigin-spatial-navigation";
 import { useNavigate } from "react-router-dom";
 const RecentListItem = ({ listData, focusHandler, isFocused, itemIndex }) => {
-
-  let videoType = listData?.type
-    console.log(listData,videoType);
+  let videoType = listData?.type;
   let cardWidth = 240;
   let watchedTime = listData.seconds;
   let totalTime = listData?.duration;
@@ -37,7 +35,7 @@ const RecentListItem = ({ listData, focusHandler, isFocused, itemIndex }) => {
       focusSelf();
     }
   }, [focusSelf]);
-  let imgUrl = listData.image
+  let imgUrl = listData.image;
   return (
     <div
       ref={ref}
@@ -56,7 +54,10 @@ const RecentListItem = ({ listData, focusHandler, isFocused, itemIndex }) => {
         loading="lazy"
         alt="..."
       />
-        {listData?.title&& <div className="title">{listData.title}</div>}
+      {listData?.title && <div className="title">{listData.title}</div>}
+      {listData?.rentp && <div className="leftTag">{listData.rentp}</div>}
+      {listData?.buyp && <div className="leftTag">{listData.buyp}</div>}
+      {(!listData?.buyp && !listData?.rentp) && <div className="leftTag">Free</div>}
       <div
         style={{ width: cardWidth * watchPercentage + "px" }}
         className="watchedLine"
