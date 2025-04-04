@@ -1,10 +1,10 @@
 {
-  "vendor": "showtv",
+  "vendor": "dynoxe",
   "largeIcon": "largeIcon.png",
   "icon": "icon.png",
   "main": "index.html",
-  "id": "com.showtv.app",
-  "title": "showtv",
+  "id": "com.dynoxe.app",
+  "title": "dynoxe",
   "type": "web",
   "resolution": "1280x720",
   "version": "1.0.0",

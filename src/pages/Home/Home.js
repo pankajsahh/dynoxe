@@ -10,7 +10,7 @@ import { FocusContext, useFocusable } from "@noriginmedia/norigin-spatial-naviga
 import ListContainer from "../../components/ListContainer/ListContainer";
 
 const Home = () => {
-  const { pageData, loading, error } = usePageData(`${CONSTANTS.BASE_URL}/common/home`);
+  const { pageData, loading, error } = usePageData(`${CONSTANTS.BASE_URL}/home_page`);
   console.log(pageData);
   const [exitPopup, setExitPopup] = useState(false);
   const { ref, focusKey } = useFocusable({})

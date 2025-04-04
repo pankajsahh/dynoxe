@@ -91,7 +91,7 @@
     margin: auto 4px;
     bottom: 0;
     left: 4px;
-
+    overflow: hidden;
     // larege smalll css
 
     &.large {
@@ -107,6 +107,25 @@
         margin-top: 20px;
         margin-left: 30px;
         flex-direction: row;
+        &.Settings {
+          width: 75%;
+          border-radius: 10px;
+          flex-direction: row;
+          box-sizing: border-box;
+          margin: 0px;
+          margin-top: 15px;
+          .LogoCover {
+            flex: 0;
+          }
+          &.active {
+            background: #179efb;
+          }
+          .title {
+            &.active {
+              color: #ffffff;
+            }
+          }
+        }
         .LogoCover {
           flex: 0.6;
         }
@@ -128,7 +147,29 @@
         top: 68px;
         left: 56px;
       }
+      .SettingText {
+        position: relative;
+        width: 66%;
+        // margin-bottom: 20px;
+        height: 48px;
+        font-family: "Poppins";
+        font-weight: 500;
+        font-size: 32px;
+        line-height: 100%;
+        letter-spacing: 0%;
+        text-transform: capitalize;
+      }
     }
+    .RepArrow {
+      position: absolute;
+      top: 0px;
+      bottom: 0px;
+      margin: auto 0;
+      left: 0px;
+      width: 40px;
+      height: 40px;
+    }
+
     &.small {
       // background: red;
       border-radius: 0px;

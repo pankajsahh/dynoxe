@@ -15,6 +15,8 @@ import MoviePage from "./pages/gridPage";
 import SeriesPage from "./pages/gridPage";
 import Favorites from "./pages/Favorites";
 import { setParentalLock, setParentalLockNumber } from "./utils/util";
+import Settings from "./pages/Setting/Setting";
+import Login from "./pages/Login/Login";
 
 export const noMenuRoute = [
   "/auth",
@@ -50,6 +52,8 @@ const ModuleMapper = ({ moduleName }) => {
   switch (moduleName) {
     case "Auth":
       return <Auth />;
+    case "Login":
+      return  <Login /> ;
     case "MovieDetailsPage":
       return <MovieDetailsPage />;
     case "Search":
@@ -70,6 +74,8 @@ const ModuleMapper = ({ moduleName }) => {
       return <SeriesPage />;
     case "Favorites":
       return <Favorites />;
+    case "Setting":
+      return <Settings />;
     default:
       return null;
   }
@@ -141,8 +147,28 @@ export default () => {
             />
             <Route
               path="/login"
-              element={<ModuleMapperWithBack moduleName="Auth" />}
-              key="root"
+              element={<ModuleMapperWithBack moduleName="Login" />}
+              key="login"
+            />
+            <Route
+              path="/settings"
+              element={<ModuleMapperWithBack moduleName="Setting" />}
+              key="settings"
+            />
+            <Route
+              path="/terms"
+              element={<ModuleMapperWithBack moduleName="Setting" />}
+              key="terms"
+            />
+            <Route
+              path="/privacy"
+              element={<ModuleMapperWithBack moduleName="Setting" />}
+              key="privacy"
+            />
+            <Route
+              path="/contact"
+              element={<ModuleMapperWithBack moduleName="Setting" />}
+              key="contact"
             />
             <Route
               path="/"

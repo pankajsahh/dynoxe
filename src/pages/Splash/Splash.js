@@ -30,12 +30,6 @@ const Splash = (props) => {
         type_id: "home",
       },
       {
-        id: 2,
-        name: "Live",
-        icon: "liveIcon",
-        type_id: "live",
-      },
-      {
         id: 3,
         name: "Movies",
         icon: "movieIcon",
@@ -64,6 +58,12 @@ const Splash = (props) => {
         name: "Profile",
         icon: "profileIcon",
         type_id: "auth",
+      },
+      {
+        id: 6,
+        name: "Settings",
+        icon: "profileIcon",
+        type_id: "settings",
       },
     ]);
     dispatch(setMenuData({ menuData: arr }));

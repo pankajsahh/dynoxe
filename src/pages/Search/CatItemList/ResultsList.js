@@ -6,12 +6,7 @@ import {
 } from "@noriginmedia/norigin-spatial-navigation";
 import { useNavigate } from "react-router-dom";
 import placeholder from "../../../assets/image/placeholder.svg";
-import { getLanguage, oldESscrollTo } from "../../../utils/util";
-import Loader from "../../../components/Loader";
-import { selectedLiveCatagory, selectedLiveChannel, selectedLiveData } from "../../../modules/menu/menu.action";
-import CONSTANTS from "../../../utils/constant";
-import { useDispatch, useSelector } from "react-redux";
-import axios from "axios";
+import { oldESscrollTo } from "../../../utils/util";
 const CatItem = ({
   item,
   focusHandler,
@@ -19,17 +14,15 @@ const CatItem = ({
   itemPosition,
   itemIndex,
 }) => {
-  let videoType = item.itemType;
+  let videoType = item?.type;
   let videoData = item;
-  let cardWidth = 120;
-  let cardHeight = 178;
+  let cardWidth = 240;
+  let cardHeight = 135;
   let watchPercentage = Math.max(0, Number(item?.percentage / 100));
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const { token } = useSelector((state) => state.auth);
   const { ref, focused, focusSelf } = useFocusable({
     onFocus: (props) => {
-      console.log(videoData,'focusedData');
+      console.log(videoData, "focusedData");
       focusHandler(props);
     },
     onEnterPress: () => {
@@ -37,79 +30,23 @@ const CatItem = ({
     },
   });
 
-  const defaultChannelFinder = async ({ id, category }) => {
-    try {
-      let channelId = id;
-      let channelCat = category;
-      const response = await axios.get(
-        `${CONSTANTS.BASE_URL}/live/category/all`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Accept-Language": getLanguage(),
-          },
-        }
-      );
-      const selectedLiveCatagoryIndex = response?.data?.findIndex(
-        (item) => item == channelCat
-      );
-      const channelResponse = await axios.get(
-        `${CONSTANTS.BASE_URL}/live/all?category=${response?.data[selectedLiveCatagoryIndex]}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Accept-Language": getLanguage(),
-          },
-        }
-      );
-      let channelList = Object.values(channelResponse?.data);
-      let selectedLiveChannelIndex = channelList?.findIndex(
-        (item) => Number(item.id) == Number(channelId)
-      );
-      if(selectedLiveChannelIndex==-1) selectedLiveChannelIndex=0;
-      dispatch(
-        selectedLiveCatagory({
-          selectedLiveCatagory: selectedLiveCatagoryIndex,
-        })
-      );
-      dispatch(
-        selectedLiveChannel({ selectedLiveChannel: selectedLiveChannelIndex })
-      );
-      dispatch(
-        selectedLiveData({
-          selectedLiveData: channelList[selectedLiveChannelIndex],
-        })
-      );
-      console.log(channelList, "catt", channelId);
-    } catch (error) {
-      console.error("Error fetching channel data:", error);
-    }
-  };
-
-
   const clickHandler = async () => {
     if (videoType == "live") {
       if (videoData.type == 1) {
         navigate(`/movieDetails`, {
           state: {
             id: videoData.id,
-            type: 'movie',
+            type: "movie",
           },
         });
       } else if (videoData.type == 2) {
         navigate(`/seriesDetails`, {
           state: {
             id: videoData.id,
-            type: 'series',
+            type: "series",
           },
         });
       } else if (videoData.type == 3) {
-        await defaultChannelFinder({
-          id: videoData?.id,
-          category: videoData?.category,
-          type: "live",
-        });
-  
         navigate(`/live`, {
           state: {
             id: videoData?.id,
@@ -118,7 +55,7 @@ const CatItem = ({
           },
         });
       }
-    }else{
+    } else {
       navigate(`/${videoType}Details`, {
         state: {
           id: videoData.id,
@@ -126,18 +63,20 @@ const CatItem = ({
         },
       });
     }
-    
   };
   useEffect(() => {
     if (isFocused) {
       focusSelf();
     }
   }, [focusSelf]);
-
+  let imgUrl = item.movieimg;
+  if (videoType == "Movies") {
+    imgUrl = item.movieimg;
+  }
   return (
     <div
       ref={ref}
-      className={`list-item ${itemPosition(itemIndex)} ${
+      className={`list-item recent ${itemPosition(itemIndex)} ${
         focused ? "focused" : ""
       }`}
       onClick={clickHandler}
@@ -146,14 +85,7 @@ const CatItem = ({
         width={cardWidth}
         height={cardHeight}
         style={{ objectFit: "contain" }}
-        src={
-          (videoType == "series"
-            ? videoData.imagePath
-            : videoType == "live"
-            ? videoData?.image
-            : videoData?.posterImage) ||
-          "https://s3-alpha-sig.figma.com/img/3267/8dc2/7b5e762f2f606216c312d39d07dc8542?Expires=1736726400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=YZcMcTAHD5eBD1J~YQ-V0rSMBl2sLOSIS7is7aKi-xnbrA2z8C07IQpVo8F9gZkqwNAtsRChGWdzSi2YMoj2DxJ~CYO1drmE-yEimCCoNImaSiMWjMPfzctQJ7u4ihT33fjAbN6fYhaDjXzGXgqondcV0n1e1EQq0MkQRJ16bbGlmeah1tFuy-VxbyK1CMBvRtBhzCNCf6Qfj-0vi0krvIJ6kamY~t-U8OYSpNO9gIZGU8QB2r9YCDxmaaLZSiciZFfgPLotk0Ilurec0aIVsygAaY30J27iw7Umxgi8LrH65Fz6tIG4mGUI8dEfpdS6vMPRFSj1ubTu87Iy0E4t3w__"
-        }
+        src={imgUrl}
         onError={({ currentTarget }) => {
           currentTarget.onerror = null; // prevents looping
           currentTarget.src = placeholder;
@@ -161,6 +93,10 @@ const CatItem = ({
         loading="lazy"
         alt="..."
       />
+      {item?.title && <div className="title">{item.title}</div>}
+      {item?.rentp && <div className="leftTag">{item.rentp}</div>}
+      {item?.buyp && <div className="leftTag">{item.buyp}</div>}
+      {!item?.buyp && !item?.rentp && <div className="leftTag">Free</div>}
       <div
         style={{ width: cardWidth * watchPercentage + "px" }}
         className="watchedLine"
@@ -194,7 +130,7 @@ const ResultsList = memo(({ searchResults, isFocused }) => {
 
   const itemPositionIdentifier = (Itemindex) => {
     let totalItems = displayedItems.length;
-    let itemsInRow = 6; // hard coded
+    let itemsInRow = 4; // hard coded
     let yaxis = "top";
     let totalNoOfItemsInBottomArray = totalItems % itemsInRow;
     if (itemsInRow < totalItems) {

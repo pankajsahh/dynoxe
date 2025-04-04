@@ -10,8 +10,7 @@
     overflow: scroll;
     scroll-behavior: smooth;
     .list-item {
-      width: 121px;
-      height: 179px;
+
       overflow: hidden;
       margin: 0 0 10px 10px;
       display: flex;
@@ -19,34 +18,58 @@
       justify-content: center;
       align-items: center;
       &.focused {
-        border: 1.5px solid white;
-        transform: scale(1.5); /* Scale the focused item */
-        transition: transform 0.3s ease, border-color 0.3s ease;
-        &.top{
-          &.start{
-            transform-origin: left top;
-          }
-          &.mid{
-            transform-origin: top center;
-          }
-          &.end{
-            transform-origin: right top;
-          }
-        }
+           z-index: 999;
+        // transform: scale(1.5); /* Scale the focused item */
+        // transition: transform 0.3s ease, border-color 0.3s ease;
+        // &.top{
+        //   &.start{
+        //     transform-origin: left top;
+        //   }
+        //   &.mid{
+        //     transform-origin: top center;
+        //   }
+        //   &.end{
+        //     transform-origin: right top;
+        //   }
+        // }
         
-        &.bottom{
-          &.start{
-            transform-origin: left bottom;
-          }
-          &.mid{
-            transform-origin: bottom center;
-          }
-          &.end{
-            transform-origin: right bottom;
-          }
-        }
+        // &.bottom{
+        //   &.start{
+        //     transform-origin: left bottom;
+        //   }
+        //   &.mid{
+        //     transform-origin: bottom center;
+        //   }
+        //   &.end{
+        //     transform-origin: right bottom;
+        //   }
+        // }
       }
 
+    }
+    &.recent {
+      position: relative;
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      img {
+        border-radius: 9px;
+      }
+     .leftTag{
+      position: absolute;
+     }
+      .title {
+        font-family: "Poppins";
+        font-size: 18px;
+        font-weight: 500;
+        line-height: 16px;
+        text-align: start;
+  
+        text-underline-position: from-font;
+        text-decoration-skip-ink: none;
+        margin: 10px 0px;
+        margin-left: 8px;
+      }
     }
   }
 }

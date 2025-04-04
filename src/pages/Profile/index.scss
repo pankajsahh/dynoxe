@@ -11,7 +11,6 @@
   width: 1216px;
   .page-content {
     display: flex;
-
     width: 100%;
     .SubMenuContainer {
       flex: 1;
@@ -22,203 +21,22 @@
       height: 100%;
       background-color: #000000;
       .login-btn {
-        width: 311px;
-        height: 56px;
-        background: transparent;
-        font-family: Inter;
-        font-size: 24px;
-        font-weight: 700;
-        line-height: 24px;
-        text-align: left;
-        text-underline-position: from-font;
-        text-decoration-skip-ink: none;
-        margin-bottom: 55px;
-        color: white;
-        border: 1.5px solid transparent;
-        border-radius: 8px;
-        padding-left: 22px;
+        width: 389px;
+        height: 53px;
+        border-radius: 7px;
+        color: black;
+        margin-top: 10px;
+        font-family: Poppins;
+
+        font-size: 19px;
+        line-height: 100%;
+        font-weight: 400;
+        background: #ffffff;
+
         &.button-focused {
-          box-shadow: 1px 1px 8px rgba(255, 255, 255, 0.6509803922);
-        }
-      }
-    }
-    .SelectedMenuViewer {
-      width: 769px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      .Title {
-        font-family: Inter;
-        font-size: 32px;
-        font-weight: 700;
-        line-height: 38.73px;
-        text-align: center;
-        margin-bottom: 8px;
-        text-underline-position: from-font;
-        text-decoration-skip-ink: none;
-      }
-      .ParentalLock {
-        .title {
-          font-family: Inter;
-          font-size: 32px;
-          font-weight: 700;
-          line-height: 38.73px;
-          text-align: center;
-          text-underline-position: from-font;
-          text-decoration-skip-ink: none;
-        }
-
-        .ActivateLock {
-          display: flex;
-          margin-top: 10px;
-          justify-content: space-around;
-          .title {
-            font-family: Inter;
-            font-size: 16px;
-            font-weight: 500;
-            line-height: 24px;
-            text-align: center;
-            text-underline-position: from-font;
-            text-decoration-skip-ink: none;
-          }
-          .sliderCheckBox {
-            .switch {
-              display: inline-block;
-              height: 30px;
-              width: 50px;
-              position: relative;
-            }
-
-            .switch input {
-              display: none;
-            }
-
-            .slider {
-              background-color: #ccc;
-              bottom: 0;
-              cursor: pointer;
-              left: 0;
-              position: absolute;
-              right: 0;
-              top: 0;
-              transition: 0.4s;
-              .FocusDiv {
-                display: flex;
-                position: absolute;
-                top: 0;
-                left: 0px;
-                width: 48px;
-                border-radius: 25px;
-                height: 28px;
-                border: 1.5px solid white;
-              }
-            }
-
-            .slider:before {
-              background-color: #fff;
-              bottom: 3.5px;
-              content: "";
-              height: 24px;
-              left: 3px;
-              position: absolute;
-              transition: 0.4s;
-              width: 24px;
-            }
-
-            input:checked + .slider {
-              background-color: #66bb6a;
-            }
-
-            input:checked + .slider:before {
-              transform: translateX(20px);
-            }
-
-            .slider.round {
-              border-radius: 30px;
-            }
-
-            .slider.round:before {
-              border-radius: 50%;
-            }
-
-            .slider.round:before {
-              border-radius: 50%;
-            }
-          }
-        }
-        .otpBoxParent {
-          display: flex;
-          margin-top: 20px;
-          .otpBox {
-            display: flex;
-            width: 67px;
-            height: 63px;
-            margin-right: 5px;
-            background: #ffffff33;
-            border-radius: 8px;
-            font-family: Inter;
-            font-size: 32px;
-            font-weight: 500;
-            line-height: 24px;
-            text-align: center;
-            text-underline-position: from-font;
-            text-decoration-skip-ink: none;
-            justify-content: center;
-            align-items: center;
-            border: 1.5px solid transparent;
-            &.focused {
-              border: 1.5px solid white;
-            }
-          }
-        }
-        .BoxInput {
-          // visibility: hidden;
-        }
-        .BtnWrapper {
-          width: 100%;
-          display: flex;
-          justify-content: center;
-          .SaveBtn {
-            width: 146px;
-            height: 56px;
-            background: #da513d;
-            font-style: normal;
-            font-weight: 600;
-            font-size: 12px;
-            line-height: 16px;
-            color: #ffffff;
-            border-radius: 4px;
-            margin-top: 20px;
-          }
-        }
-        .saveMessage {
-          display: flex;
-          justify-content: center;
-          width: 100%;
-          margin-top: 35px;
-          .message {
-            font-family: Inter;
-            font-size: small;
-            font-weight: 500;
-            line-height: normal;
-            letter-spacing: normal;
-            text-align: left;
-            text-underline-position: from-font;
-            text-decoration-skip-ink: none;
-           
-            padding: 3px 8px;     
-            border-radius: 4px;
-          }
-        }
-      }
-      .LangContainer {
-        width: 294px;
-        height: 80px;
-        .OptionsWrapper {
-          width: 100%;
-          .SubMenuItem {
-            width: 100%;
-          }
+          background: #27a7ff;
+          color: #ffffff;
+          border-width: 0px;
         }
       }
     }

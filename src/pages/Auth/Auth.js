@@ -1,12 +1,15 @@
-import React, { Fragment } from "react";
-import { useSelector } from "react-redux";
-// import "./index.scss";
-import Login from "../Login";
-import Profile from "../Profile";
+import React, { Fragment, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Profile } from "../Profile/Profile";
+import { showMenu } from "../../modules/menu/menu.action";
 
 const Auth = (props) => {
   const { token } = useSelector((state) => state.auth);
-  return <Fragment>{!token ? <Login /> : <Profile />}</Fragment>;
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(showMenu({ showMenu: true }));
+  }, []);
+  return <Fragment>{<Profile />}</Fragment>;
 };
 
 export default Auth;

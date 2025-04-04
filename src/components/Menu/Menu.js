@@ -9,6 +9,10 @@ import {
   setMenuMode,
 } from "../../modules/menu/menu.action";
 import homeIcon from "../../assets/image/navIcons/home.svg";
+import Info from "../../assets/clientimages/info.png";
+import Mail from "../../assets/clientimages/mail.png";
+import Tos from "../../assets/clientimages/tos.png";
+import LeftArrow from "../../assets/clientimages/chevron-left.png";
 import liveIcon from "../../assets/image/navIcons/live.svg";
 import loveIcon from "../../assets/image/navIcons/love.svg";
 import movieIcon from "../../assets/image/navIcons/movie.svg";
@@ -26,13 +30,12 @@ import BrandLogoSmall from "../../assets/clientImages/smallLogo.png";
 
 // import { tveIcon } from "../../assets/image/navIcons/tve";
 
-function MenuItems({ menuClick, isFocused, item,itemIndex }) {
+function MenuItems({ menuClick, isFocused, item, itemIndex }) {
   const { ref, focusSelf, focused } = useFocusable({
     onEnterPress: () => {
       menuClick(item.type_id);
     },
   });
-  const location = useLocation();
   const findIcons = (menuName) => {
     switch (menuName) {
       case "home":
@@ -48,9 +51,9 @@ function MenuItems({ menuClick, isFocused, item,itemIndex }) {
       case "search":
         return searchIcon;
       case "auth":
-        return settingIcon;
-      case "profile":
         return profileIcon;
+      case "settings":
+        return settingIcon;
       default:
         return null;
     }
@@ -65,8 +68,75 @@ function MenuItems({ menuClick, isFocused, item,itemIndex }) {
       <li
         role="none"
         key={item.type_id}
-        style={(itemIndex==0)?{marginTop:"100px"}:{}}
+        style={itemIndex == 0 ? { marginTop: "100px" } : {}}
         className={`menu-item ${focused ? "active" : ""}`}
+        ref={ref}
+        tabIndex={0}
+        onClick={() => menuClick(item.type_id)}
+      >
+        <div className="LogoCover">
+          <img
+            width={48}
+            height={48}
+            style={
+              focused
+                ? {
+                    padding: "7px",
+                    background: "#179EFB",
+                    borderRadius: "10px",
+                  }
+                : { padding: "7px", color: "white" }
+            }
+            src={findIcons(item.type_id)}
+            alt={item.type_id}
+          />
+        </div>
+        <span className={`title ${focused ? "active" : ""}`}>{item.name}</span>
+      </li>
+    </>
+  );
+}
+function SettingItems({
+  menuClick,
+  isFocused,
+  item,
+  itemIndex,
+  closeSettings,
+}) {
+  const { ref, focusSelf, focused } = useFocusable({
+    onEnterPress: () => {
+      menuClick(item.type_id);
+    },
+    onArrowPress: (dir) => {
+      if (dir == "left") {
+        closeSettings();
+      }
+    },
+  });
+  const findIcons = (menuName) => {
+    switch (menuName) {
+      case "terms":
+        return Tos;
+      case "privacy":
+        return Info;
+      case "contact":
+        return Mail;
+      default:
+        return null;
+    }
+  };
+  useEffect(() => {
+    if (isFocused) {
+      focusSelf();
+    }
+  }, [focusSelf]);
+  return (
+    <>
+      <li
+        role="none"
+        key={item.type_id}
+        style={itemIndex == 0 ? {} : {}}
+        className={`menu-item Settings ${focused ? "active" : ""}`}
         ref={ref}
         tabIndex={0}
         onClick={() => menuClick(item.type_id)}
@@ -96,13 +166,16 @@ function MenuItems({ menuClick, isFocused, item,itemIndex }) {
 
 function Menu() {
   const dispatch = useDispatch();
+  const [settingsTab, setSettingsTab] = useState(false);
   const { ref, focusKey } = useFocusable({
     focusKey: "MENU",
     onFocus: () => {
       dispatch(setMenuMode({ mode: "large" }));
     },
     onBlur: () => {
-      dispatch(setMenuMode({ mode: "small" }));
+      if(!settingsTab){
+        dispatch(setMenuMode({ mode: "small" }));
+      }
     },
   });
   const { mode, isKeyboardOpen, menuData, selectedMenu } = useSelector(
@@ -112,6 +185,10 @@ function Menu() {
   const navigate = useNavigate();
   const location = useLocation();
   const clickHandler = (menu) => {
+    if (menu == "settings") {
+      setSettingsTab(true);
+      return;
+    }
     if (location.pathname != `/${menu}`) {
       dispatch(setSelectedMenu({ selectedMenu: menu }));
       dispatch(setLastActiveListItem({ item: "" }));
@@ -123,14 +200,26 @@ function Menu() {
       });
     }
   };
-
-  const isActive = (item) => {
-    if (selectedMenu == item?.type_id) {
-      return true;
-    }
-    return false;
-  };
-
+  let settingsTabs = [
+    {
+      id: 1,
+      name: "Terms Of Use",
+      icon: "termsIcon",
+      type_id: "terms",
+    },
+    {
+      id: 2,
+      name: "Privacy Policy",
+      icon: "privacyIcon",
+      type_id: "privacy",
+    },
+    {
+      id: 3,
+      name: "Contact Us",
+      icon: "contactIcon",
+      type_id: "contact",
+    },
+  ];
   return (
     <FocusContext.Provider value={focusKey}>
       <div ref={ref} className={`menu-container small `}>
@@ -140,13 +229,25 @@ function Menu() {
         >
           <div className="BrandLogo">
             {mode == "large" && (
-              <img width={ 164} height={34} src={BrandLogo} alt="BrandLogo" />
+              <img width={164} height={34} src={BrandLogo} alt="BrandLogo" />
             )}
             {mode == "small" && (
-              <img width={63} height={67} src={BrandLogoSmall} alt="BrandLogoSmall" />
+              <img
+                width={63}
+                height={67}
+                src={BrandLogoSmall}
+                alt="BrandLogoSmall"
+              />
             )}
           </div>
-          {menuData?.length &&
+          {settingsTab && <div className="SettingText">Settings</div>}
+          {settingsTab && mode == "large" && (
+            <div className="RepArrow">
+              <img  width={32} height={42} src={LeftArrow} alt="LeftArrow" />
+            </div>
+          )}
+          {!settingsTab &&
+            menuData?.length &&
             menuData.map((item, index) => {
               return (
                 <MenuItems
@@ -155,6 +256,19 @@ function Menu() {
                   item={item}
                   isFocused={location.pathname == `/${item.type_id}`}
                   menuClick={clickHandler}
+                />
+              );
+            })}
+          {settingsTab &&
+            settingsTabs?.map((item, index) => {
+              return (
+                <SettingItems
+                  itemIndex={index}
+                  key={item.type_id}
+                  item={item}
+                  isFocused={location.pathname == `/${item.type_id}`}
+                  menuClick={clickHandler}
+                  closeSettings={() => setSettingsTab(false)}
                 />
               );
             })}

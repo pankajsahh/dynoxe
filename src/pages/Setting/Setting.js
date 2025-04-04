@@ -1,209 +1,100 @@
-import React, { useEffect, useState, useRef, Fragment } from "react";
-import { bindActionCreators, compose } from "redux";
-import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
-import {
-  setMenuMode,
-  showMenu,
-  setMenuData,
-  setSelectedMenu,
-} from "../../modules/menu/menu.action";
-import { setAuthInfo, setLoginStatus } from "../../modules/auth/auth.action";
-import { setAccountInfo } from "../../modules/account/account.action";
-import CONSTANTS from "../../utils/constant";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+
 import "./index.scss";
-import Logout from "../Logout";
-import MyAccount from "../MyAccount";
-import KEY from "../../utils/key";
+import { useLocation } from "react-router-dom";
+import axios from "axios";
+import CONSTANTS from "../../utils/constant";
+import usePageData from "../../helpers/pageApi";
+import {
+  FocusContext,
+  setFocus,
+  useFocusable,
+} from "@noriginmedia/norigin-spatial-navigation";
 
-const Setting = (props) => {
-  const [showPopup, setShowPopup] = useState(false);
-  const [selectedMenu, setSelectedMenu] = useState("");
-  const myAccountRef = useRef();
-  const goBackRef = useRef();
-  const changePlanButtonRef = useRef();
-  useEffect(() => {
-    // getAccountData();
-    if (myAccountRef && myAccountRef.current) {
-      myAccountRef.current.focus();
-    }
-  }, []);
+const Settings = (props) => {
+  const { pathname } = useLocation();
+  console.log(pathname, "pathname");
+  let url = CONSTANTS.BASE_URL + "/terms";
+  let title = "";
+  if (pathname == "/terms") {
+    title = "Terms and Conditions";
+    url = CONSTANTS.BASE_URL + "/terms";
+  } else if (pathname == "/contact") {
+    url = CONSTANTS.BASE_URL + "/contactus";
+  }
+  const { pageData,loading,error } = usePageData(url);
+  console.log(pageData,loading,error, "privacy");
 
-  // const getAccountData = async () => {
-  //   const { accessToken } = props.auth;
-  //   if (accessToken) {
-  //     const query = getAccountInfoQuery();
-  //     let response = postApi(query, accessToken);
-  //     response = await response;
-  //     if (response) {
-  //       response = JSON.parse(response);
-  //       if (response.data && response.data.me) {
-  //         props.setAccountInfo(response.data.me);
-  //       }
-  //     }
-  //   }
-  // };
+  const scrollingAreaRef = useRef(null);
 
-  const getComponent = (value) => {
-    switch (value) {
-      case "my-account":
-        return <MyAccount auth={props.auth} account={props.account} />;
-      case "logout":
-        return <Logout logoutPopup={showPopup} callback={popupCallback} />;
-      default:
-        return <MyAccount auth={props.auth} account={props.account} />;
-    }
-  };
-
-  const clickHandler = (event, code) => {
-    event.preventDefault();
-    event.stopPropagation();
-    if (code === "logout") {
-      setShowPopup(true);
-    }
-    setSelectedMenu(code);
-  };
-
-  const keydownHandler = (event, code) => {
-    event.preventDefault();
-    event.stopPropagation();
-    const key = event.keyCode;
-    switch (key) {
-      case KEY.ENTER:
-        clickHandler(event, code);
-        break;
-      case KEY.UP:
-        if (event.target.previousSibling) {
-          event.target.previousSibling.focus();
-        } else if (goBackRef && goBackRef.current) {
-          goBackRef.current.focus();
+  const scrollHandler = useCallback(
+    (props) => {
+      if (props == "down") {
+        if (scrollingAreaRef?.current) {
+          try {
+            scrollingAreaRef?.current?.scrollTo({
+              top: scrollingAreaRef.current.scrollTop + 200,
+              behavior: "smooth",
+            });
+          } catch (e) {}
+          return false;
         }
-        break;
-      case KEY.DOWN:
-        if (event.target.nextSibling) {
-          event.target.nextSibling.focus();
+      } else if (props == "up") {
+        if (
+          scrollingAreaRef?.current &&
+          scrollingAreaRef.current.scrollTop > 0
+        ) {
+          try {
+            scrollingAreaRef?.current?.scrollTo({
+              top: scrollingAreaRef.current.scrollTop - 200,
+              behavior: "smooth",
+            });
+          } catch (e) {}
+          return false;
         }
-        break;
-      case KEY.RIGHT:
-        if (changePlanButtonRef && changePlanButtonRef?.current) {
-          changePlanButtonRef?.current?.focus();
-        }
-        break;
-      case KEY.BACK:
-        window.history.back();
-        break;
-    }
-  };
-
-  const gobackClickHandler = (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-    window.history.back();
-  };
-
-  const gobackKeydownHandler = (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-    const key = event.keyCode;
-    switch (key) {
-      case KEY.ENTER:
-      case KEY.BACK:
-        gobackClickHandler(event);
-        break;
-      case KEY.DOWN:
-        if (myAccountRef && myAccountRef.current) {
-          myAccountRef.current.focus();
-        }
-        break;
-    }
-  };
-
-  const popupCallback = (type) => {
-    switch (type) {
-      case "done":
-        logout();
-        break;
-      case "cancel":
-        setShowPopup(false);
-        if (myAccountRef && myAccountRef.current) {
-          myAccountRef.current.focus();
-        }
-        break;
-    }
-  };
-
-  const logout = () => {
-    localStorage.removeItem("isLogin");
-    localStorage.removeItem("userDetails");
-    const MENUS = CONSTANTS.MENUS.GUEST;
-    props.setMenuData({ menuData: MENUS });
-    props.setSelectedMenu({ selectedMenu: MENUS[0].code });
-    props.setAuthInfo(null);
-    props.setLoginStatus({ isLogin: false });
-    props.setAccountInfo(null);
-    props.history.push("/home");
-  };
-
+      } else if (props == "left") {
+        setFocus("MENU");
+        return false;
+      }
+      return true;
+    },
+    [scrollingAreaRef]
+  );
   return (
-    <div className="setting-page">
-      <div className="setting-wrapper">
-        <div className="menu-section">
-          <div className="title">Settings</div>
-          <div
-            className="go-back"
-            tabIndex={0}
-            ref={goBackRef}
-            onClick={gobackClickHandler}
-            onKeyDown={gobackKeydownHandler}
-          >
-            <span className="icon"></span>
-            Go Back
+    <div className="setting-container">
+      <div className="SelectedMenuViewer">
+        <div className="centerInfo">
+          <div className="Title">{title}</div>
+          <div className="desc" ref={scrollingAreaRef}>
+            <ScrollableTextArea
+              content={pageData?.data?.termsdata}
+              isFocused={true}
+              scrollHandler={scrollHandler}
+            />
           </div>
-          <ul className="menu-list">
-            {CONSTANTS.SETTING_MENUS.map((item, index) => {
-              return (
-                <li
-                  className={`menu-item ${
-                    item.code === selectedMenu ? "active" : ""
-                  }`}
-                  key={item.code}
-                  tabIndex={0}
-                  ref={index === 0 ? myAccountRef : null}
-                  onClick={(event) => clickHandler(event, item.code)}
-                  onKeyDown={(event) => keydownHandler(event, item.code)}
-                >
-                  {item.name}
-                </li>
-              );
-            })}
-          </ul>
         </div>
-        <div className="content-section">{getComponent(selectedMenu)}</div>
       </div>
     </div>
   );
 };
 
-const mapStateToProps = (state) => ({
-  auth: state.auth,
-  account: state.account,
-});
-
-const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators(
-    {
-      setMenuMode,
-      setAuthInfo,
-      setLoginStatus,
-      showMenu,
-      setMenuData,
-      setSelectedMenu,
-      setAccountInfo,
+export const ScrollableTextArea = ({ content, isFocused, scrollHandler }) => {
+  const { ref, focusSelf, focused } = useFocusable({
+    onArrowPress: (props) => {
+      return scrollHandler(props);
     },
-    dispatch
+  });
+  useEffect(() => {
+    if (isFocused) focusSelf();
+  }, []);
+  return (
+    <>
+      <div
+        ref={ref}
+        className={focused?"focusedText":""}
+        dangerouslySetInnerHTML={{ __html: content }}
+      />
+    </>
   );
 };
-
-export default withRouter(
-  compose(connect(mapStateToProps, mapDispatchToProps))(Setting)
-);
+export default Settings;

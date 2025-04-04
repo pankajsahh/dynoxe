@@ -29,22 +29,14 @@ const Login = (props) => {
     trackChildren: true,
   });
   const [isSignUpPage, setSignUpPage] = useState(false);
-  let dummy = {
-    emailid: "pankajsahu@gm.com",
-    fullname: "panakj",
+
+  const [AuthData, setAuthData] = useState({
+    fullname: "",
+    emailid: "",
+    mobile: "",
+    pwd: "",
     mnumber: "",
-    mobile: "8010011556",
-    pwd: "9899819133",
-  };
-  const [AuthData, setAuthData] = useState(
-    dummy || {
-      fullname: "",
-      emailid: "",
-      mobile: "",
-      pwd: "",
-      mnumber: "",
-    }
-  );
+  });
   const [Error, setError] = useState(null);
   useEffect(() => {
     focusSelf();
