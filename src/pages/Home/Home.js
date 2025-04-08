@@ -18,7 +18,7 @@ const Home = () => {
   const popupCallback = (type) => {
     switch (type) {
       case "done":
-        exit();
+        exit(CONSTANTS.device);
         break;
       case "cancel":
         if (listItemRef && listItemRef.current) {

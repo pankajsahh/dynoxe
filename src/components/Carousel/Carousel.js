@@ -162,7 +162,7 @@ const Carousel = (props) => {
   const popupCallback = (type) => {
     switch (type) {
       case "done":
-        exit();
+        exit(CONSTANTS.device);
         break;
       case "cancel":
         setExitPopup(false);

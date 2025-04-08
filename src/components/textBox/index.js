@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "./index.scss";
-import { useFocusable,setFocus } from "@noriginmedia/norigin-spatial-navigation";
+import {
+  useFocusable,
+  setFocus,
+} from "@noriginmedia/norigin-spatial-navigation";
 export const TextBox = ({
   placeholder,
   value,
@@ -9,12 +12,11 @@ export const TextBox = ({
   type,
   isFocused,
   maxLength = 200,
-  isKeyboardOnLoading=false,
+  isKeyboardOnLoading = false,
   blockArrowKeys,
   focusHandler,
   focusKey,
-  isSearchPage,
-  onClick
+  onClick,
 }) => {
   if (className == null || className == "") {
     className = "inputBox-style-default";
@@ -22,7 +24,7 @@ export const TextBox = ({
   const { ref, focusSelf, focused } = useFocusable({
     focusKey: focusKey,
     onBlur: () => {
-        ref?.current?.blur();
+      ref?.current?.blur();
     },
     onFocus: (props) => {
       if (focusHandler) {
@@ -37,12 +39,7 @@ export const TextBox = ({
       }
     },
     onEnterPress: () => {
-      if(isSearchPage){
-        onClick()
-        setFocus("KEYBOARD")
-      } else{
-        ref?.current?.focus();
-      }
+      ref?.current?.focus();
     },
   });
 
@@ -60,12 +57,11 @@ export const TextBox = ({
     }
   }, [focusSelf]);
 
-
   return (
     <input
       className={
         focused
-          ? className + " textBox textBox-focused" 
+          ? className + " textBox textBox-focused"
           : className + " textBox"
       }
       type={type}
@@ -73,12 +69,9 @@ export const TextBox = ({
       ref={ref}
       maxLength={maxLength}
       value={value}
-      onClick={(event)=>{
-        if(isSearchPage){
-          event.preventDefault();
-          onClick()
-          setFocus("KEYBOARD")
-        }
+      onClick={(event) => {
+        event.preventDefault();
+        onClick();
       }}
       onChange={(e) => {
         onChange(e?.target?.value);

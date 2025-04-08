@@ -1,5 +1,9 @@
-export const exit = () => {
-  window.close();
+export const exit = (device) => {
+  if(device === 'samsungTv') {
+  tizen.application.getCurrentApplication().exit();
+  } else if(device === 'lgTv') {
+    window.close();
+  }
 };
 
 export const getNetworkStatus = () => {
