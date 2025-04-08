@@ -10,6 +10,7 @@ import {
   setFocus,
   useFocusable,
 } from "@noriginmedia/norigin-spatial-navigation";
+import Loader from "../../components/Loader";
 
 const Settings = (props) => {
   const { pathname } = useLocation();
@@ -22,8 +23,8 @@ const Settings = (props) => {
   } else if (pathname == "/contact") {
     url = CONSTANTS.BASE_URL + "/contactus";
   }
-  const { pageData,loading,error } = usePageData(url);
-  console.log(pageData,loading,error, "privacy");
+  const { pageData, loading, error } = usePageData(url);
+  console.log(pageData, loading, error, "privacy");
 
   const scrollingAreaRef = useRef(null);
 
@@ -62,18 +63,22 @@ const Settings = (props) => {
   );
   return (
     <div className="setting-container">
-      <div className="SelectedMenuViewer">
-        <div className="centerInfo">
-          <div className="Title">{title}</div>
-          <div className="desc" ref={scrollingAreaRef}>
-            <ScrollableTextArea
-              content={pageData?.data?.termsdata}
-              isFocused={true}
-              scrollHandler={scrollHandler}
-            />
+      {pageData?.data?.termsdata ? (
+        <div className="SelectedMenuViewer">
+          <div className="centerInfo">
+            <div className="Title">{title}</div>
+            <div className="desc" ref={scrollingAreaRef}>
+              <ScrollableTextArea
+                content={pageData?.data?.termsdata}
+                isFocused={true}
+                scrollHandler={scrollHandler}
+              />
+            </div>
           </div>
         </div>
-      </div>
+      ) : (
+        <Loader />
+      )}
     </div>
   );
 };
@@ -91,7 +96,7 @@ export const ScrollableTextArea = ({ content, isFocused, scrollHandler }) => {
     <>
       <div
         ref={ref}
-        className={focused?"focusedText":""}
+        className={focused ? "focusedText" : ""}
         dangerouslySetInnerHTML={{ __html: content }}
       />
     </>
