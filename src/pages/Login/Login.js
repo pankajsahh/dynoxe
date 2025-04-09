@@ -187,7 +187,7 @@ const Login = (props) => {
                 return { ...state, pwd: value };
               });
             }}
-            type="text"
+            type="password"
           />
           {!isSignUpPage ? (
             <>
