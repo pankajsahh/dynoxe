@@ -70,8 +70,11 @@ export const TextBox = ({
       maxLength={maxLength}
       value={value}
       onClick={(event) => {
-        event.preventDefault();
-        onClick();
+        if(onClick){
+          event.preventDefault();
+          onClick();
+        }
+        ref?.current?.focus();
       }}
       onChange={(e) => {
         onChange(e?.target?.value);

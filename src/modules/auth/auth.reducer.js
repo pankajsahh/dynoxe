@@ -1,30 +1,31 @@
-let authInfo = localStorage.getItem("show_tv_login_data");
+import CONSTANTS from "../../utils/constant";
+
+let authInfo = localStorage.getItem( CONSTANTS.siteName + "_login_data",);
 // let isLogin = localStorage.getItem("isLogin") || false;
 // console.log("authInfo=== ", authInfo);
 // isLogin = isLogin === "true" || isLogin === true;
 authInfo = authInfo ? JSON.parse(authInfo) : {};
+
 const initialState = {
-  token: authInfo.token || "",
-  refresh_token: authInfo.refresh_token || "",
-  status: authInfo.status || false,
-  email: authInfo.email || "",
+
+
+  user_email: authInfo.user_email || "",
   image: authInfo.image || "",
-  phone: authInfo.phone || "",
-  name: authInfo.name || "",
-  id: authInfo.id || "",
-  user_name: authInfo.user_name || "",
-  expired_at: authInfo.days || "",
+  user_phone: authInfo.user_phone || "",
+  user_fullname: authInfo.user_fullname || "",
+  user_id: authInfo.user_id || "",
+
+
 };
 const derivedState = {
-  token:  "",
-  status: false,
+
   email:  "",
   image:  "",
-  phone:  "",
-  name:  "",
-  id:  "",
-  user_name:  "",
-  expired_at:  "",
+  user_phone:  "",
+  user_fullname:  "",
+  user_id:  "",
+
+
 };
 
 // eslint-disable-next-line import/no-anonymous-default-export

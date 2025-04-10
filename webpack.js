@@ -6,7 +6,10 @@ const CopyWebpackPlugin = require("copy-webpack-plugin");
 const process = require("process");
 const fs = require("fs");
 module.exports = {
+  
   entry: ["./src/index.js"],
+  devtool: "inline-source-map",
+  mode: "production",
   module: {
     rules: [
       {

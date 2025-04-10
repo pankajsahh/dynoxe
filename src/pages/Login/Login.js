@@ -18,8 +18,9 @@ import { FocusableButton } from "../../components/button";
 import { getApi } from "../../utils/api";
 import { uuid } from "../../utils/util";
 import CONSTANTS from "../../utils/constant";
-import Popup from "../../components/Popup";
+
 import axios from "axios";
+import Popup from "../../components/Popup";
 const Login = (props) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -84,31 +85,32 @@ const Login = (props) => {
         },
       });
       console.log(response.data, "res");
-
-      if (response?.status == true) {
-        let data = { ...response, isLogin: true };
+      if (response?.data?.status == 0 && response.data?.message) {
+        setError(response.data?.message);
+      }
+      if (response?.data?.status == 1) {
+        let data = { ...response?.data?.data, isLogin: true };
         localStorage.setItem(
           CONSTANTS.siteName + "_login_data",
           JSON.stringify(data)
         );
         dispatch(setAuthInfo(data));
         navigate("/home");
-      } else {
-        setError(response?.message);
-      }
+      } 
     } catch (error) {
-      console.error(error.response?.data || error.message, "error");
+      console.log(error.response?.data || error.message, "error");
     }
   };
   const popupCallback = (type) => {
+    console.log(type, "type");
     switch (type) {
-      case "retry":
-        setFocus("CodeInput");
+      case "done":
         setError(null);
+        focusSelf();
         break;
     }
   };
-
+  console.log(Error, "error mlog");
   return (
     <div
       style={{ backgroundImage: `url(${AuthBG})`, backgroundSize: "contain" }}
@@ -247,14 +249,13 @@ const Login = (props) => {
         </div>
       </FocusContext.Provider>
 
-      {Error != null && (
+      {Error != null ? (
         <Popup
           message={Error}
-          title="Error"
-          retry="retry"
+          okBtn={"retry"}
           keyDownHandler={popupCallback}
         />
-      )}
+      ) : null}
     </div>
   );
 };

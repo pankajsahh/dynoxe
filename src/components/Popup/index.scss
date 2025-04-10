@@ -67,7 +67,7 @@
       text-align: center;
       text-underline-position: from-font;
       text-decoration-skip-ink: none;
-      color: #da513d;
+      color: #27a7ff;
       text-transform: capitalize;
     }
     .message {
@@ -105,7 +105,7 @@
         }
         
         &.button-focused {
-          background: #da513d;
+          background: #27a7ff;
           color: variables.$white-color;
           border: 1.5px solid #ffffff;
         }
@@ -135,7 +135,7 @@
           margin-left: functions.get-vw(20px);
         }
         &:focus {
-          background: #da513d;
+          background: #27a7ff;
           color: variables.$white-color;
           border: 1.5px solid #ffffff;
         }
