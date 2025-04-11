@@ -14,7 +14,13 @@ const initialState = {
   user_phone: authInfo.user_phone || "",
   user_fullname: authInfo.user_fullname || "",
   user_id: authInfo.user_id || "",
+  isLogin: authInfo.isLogin || "",
+  mnumber: authInfo.mnumber || "",
+  userlog: authInfo.userlog || "",
+  username: authInfo.username || "",
 
+
+  
 
 };
 const derivedState = {

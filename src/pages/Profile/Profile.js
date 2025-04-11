@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { getlocaliseText } from "../../utils/localisation";
 import { FocusableButton } from "../../components/button";
@@ -8,10 +8,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { setAuthInfo } from "../../modules/auth/auth.action";
 import Popup from "../../components/Popup";
 import CONSTANTS from "../../utils/constant";
+import axios from "axios";
 export const Profile = (props) => {
   const navigate = useNavigate();
   const auth = useSelector((state) => state.auth);
   const [showPopup, setShowPopup] = useState(false);
+  const [userData, setUserData] = useState(null);
   const dispatch = useDispatch();
   const logoutPopupCallback = (type) => {
     console.log(type, "type");
@@ -27,6 +29,25 @@ export const Profile = (props) => {
         break;
     }
   };
+  const getUserData = async () => {
+    
+    if(!auth.isLogin) {
+      return;
+    }
+    let userId = auth.user_id? auth.user_id : auth.userlog;
+    const formData = new FormData();
+    formData.append("userid", userId);
+    const response = await axios.post(CONSTANTS.BASE_URL + "/get_profile", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    setUserData(response.data.data);
+    
+  }
+  useEffect(()=>{
+    getUserData();
+  },[])
   return (
     <div className="profile-container">
       <div className="page-content">
@@ -41,16 +62,16 @@ export const Profile = (props) => {
           >
             {getlocaliseText("settingsPageLANGUAGE", "Login with Code")}
           </FocusableButton> */}
-          {auth.user_id && (
+          {auth.isLogin && (
             <>
               <div className="user-info">
                 <div className="myProfile">My Profile</div>
-                <div className="user-email">
-                  <div>Email Id:</div> <div className="value"> {auth.user_email}</div>
-                </div>
                 <div className="user-name">
                   <div>Name:</div> 
-                  <div className="value">{auth.user_fullname}</div>
+                  <div className="value">{userData?.name}</div>
+                </div>
+                <div className="user-email">
+                  <div>Email Id:</div> <div className="value"> {userData?.emailid}</div>
                 </div>
                 <FocusableButton
                 className="login-btn"
@@ -69,9 +90,10 @@ export const Profile = (props) => {
               
             </>
           )}
-          {!auth?.user_id && (
+          {!auth?.isLogin && (
             <FocusableButton
               className="login-btn"
+              isFocused={true}
               onClick={() => {
                 console.log("object");
                 navigate("/login");

@@ -10,7 +10,7 @@
     overflow: scroll;
     scroll-behavior: smooth;
     .list-item {
-
+      height: max-content;
       overflow: hidden;
       margin: 0 0 10px 10px;
       display: flex;

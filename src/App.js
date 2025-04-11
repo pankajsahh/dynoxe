@@ -30,6 +30,7 @@ const withBackFunctionality = (Component) => {
     const navigate = useNavigate();
     const onkeydownOnthisPage = (e) => {
       let key = e.keyCode;
+      console.log(key);
       if (key == KEY.BACK) {
         navigate(-1);
       }
@@ -77,7 +78,7 @@ const ModuleMapper = ({ moduleName }) => {
     case "Setting":
       return <Settings />;
     default:
-      return null;
+      return <></>;
   }
 };
 

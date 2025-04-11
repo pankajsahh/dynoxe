@@ -31,8 +31,13 @@ const Search = (props) => {
 
     setLoader(true);
     try {
-      const response = await axios.post(CONSTANTS.BASE_URL + "/homesearch", {
-        term: terms,
+      const formData = new FormData();
+      formData.append("term", terms);
+
+      const response = await axios.post(CONSTANTS.BASE_URL + "/homesearch", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       });
       console.log(response, "response");
       setSearchResults(response?.data?.data || []);

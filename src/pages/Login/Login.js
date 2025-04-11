@@ -105,8 +105,8 @@ const Login = (props) => {
     console.log(type, "type");
     switch (type) {
       case "done":
-        setError(null);
         focusSelf();
+        setError(null);
         break;
     }
   };
