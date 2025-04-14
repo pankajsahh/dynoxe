@@ -13,7 +13,7 @@ export const Profile = (props) => {
   const navigate = useNavigate();
   const auth = useSelector((state) => state.auth);
   const [showPopup, setShowPopup] = useState(false);
-  const [userData, setUserData] = useState(null);
+
   const dispatch = useDispatch();
   const logoutPopupCallback = (type) => {
     console.log(type, "type");
@@ -29,25 +29,7 @@ export const Profile = (props) => {
         break;
     }
   };
-  const getUserData = async () => {
-    
-    if(!auth.isLogin) {
-      return;
-    }
-    let userId = auth.user_id? auth.user_id : auth.userlog;
-    const formData = new FormData();
-    formData.append("userid", userId);
-    const response = await axios.post(CONSTANTS.BASE_URL + "/get_profile", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
-    setUserData(response.data.data);
-    
-  }
-  useEffect(()=>{
-    getUserData();
-  },[])
+
   return (
     <div className="profile-container">
       <div className="page-content">
@@ -68,10 +50,10 @@ export const Profile = (props) => {
                 <div className="myProfile">My Profile</div>
                 <div className="user-name">
                   <div>Name:</div> 
-                  <div className="value">{userData?.name}</div>
+                  <div className="value">{auth?.name}</div>
                 </div>
                 <div className="user-email">
-                  <div>Email Id:</div> <div className="value"> {userData?.emailid}</div>
+                  <div>Email Id:</div> <div className="value"> {auth?.emailid}</div>
                 </div>
                 <FocusableButton
                 className="login-btn"

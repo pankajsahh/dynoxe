@@ -11,13 +11,17 @@
 
   .movie-details-container {
     display: flex;
-    justify-content: space-around;
     height: 360px;
+    margin-top: 70px;
+    margin-left: 70px;
+
     .imageCover {
       position: relative;
+
       img {
         object-fit: contain;
       }
+
       .resumeTimeLine {
         background: #da513d;
         height: 5px;
@@ -31,121 +35,155 @@
       display: flex;
       width: 912px;
       height: max-content;
-      max-height: 360px;
+
+
       .basicInfo {
         display: flex;
         flex-direction: column;
         justify-content: space-between;
         flex: 1;
+
         .header {
           .title {
-            font-family: Inter;
-            font-size: 40px;
-            font-weight: 700;
-            line-height: 48.41px;
-            text-align: left;
-            text-underline-position: from-font;
-            text-decoration-skip-ink: none;
+            font-family: "Poppins";
+            font-weight: 600;
+            font-size: 35px;
+            line-height: 100%;
 
             display: -webkit-box;
-            -webkit-line-clamp: 2; /* Limit to 2 lines */
+            -webkit-line-clamp: 2;
+            /* Limit to 2 lines */
             -webkit-box-orient: vertical;
             overflow: hidden;
             text-overflow: ellipsis;
-            word-break: break-word; /* Ensures words break properly */
-            max-width: 100%; 
+            word-break: break-word;
+            /* Ensures words break properly */
+            max-width: 100%;
 
           }
+
           .subtitle {
-            font-family: Inter;
-            font-size: 16px;
+            font-family: "Poppins";
             font-weight: 500;
-            line-height: 24px;
-            text-align: left;
-            text-underline-position: from-font;
-            text-decoration-skip-ink: none;
+            margin-top: 20px;
+            font-size: 21px;
+            line-height: 100%;
           }
         }
 
         .description {
           display: -webkit-box;
-          -webkit-line-clamp: 6; 
+          -webkit-line-clamp: 6;
+          margin-top: 20px;
           -webkit-box-orient: vertical;
           text-overflow: ellipsis;
-          word-break: break-word; 
-          font-family: Inter;
-          font-size: 16px;
+          word-break: break-word;
+          font-family: "Poppins";
           font-weight: 400;
-          line-height: 24px;
+          font-size: 16px;
+          line-height: 21px;
           overflow: hidden;
           text-align: left;
           text-underline-position: from-font;
           text-decoration-skip-ink: none;
-      
+
         }
+
+        .metadata {
+          display: flex;
+          font-family: "Poppins";
+          font-weight: 700;
+          font-size: 16px;
+          margin-top: 20px;
+          font-weight: normal;
+          line-height: 21px;
+
+          .seprator {
+            margin: 0px 5px;
+            color: #ffffff;
+          }
+
+          .key {
+            font-weight: bold;
+          }
+        }
+
         .buttonsContainer {
           display: flex;
+          margin-top: 15px;
+
           .watchNowBtn {
-            width: 191px;
-            height: 56px;
+            width: 179px;
+            height: 40px;
             border: none;
-            background: #da513d;
-            font-style: normal;
-            // font-weight: 600;
-            font-size: 12px;
-            line-height: 16px;
+            background: #007AFF;
+
+            font-family: Noto Sans;
+            font-weight: 500;
+            font-size: 17px;
+            line-height: 100%;
+
             color: #ffffff;
             border-radius: 4px;
             margin-top: 15px;
             display: flex;
             justify-content: center;
             align-items: center;
-            &.focused {
-              // font-weight: 600;
-              font-size: 13px;
+
+            &.button-focused {
+              border: 2px solid #ffffff;
             }
           }
+
           .LikeBtn {
-            width: 54px;
-            height: 54px;
+            width: 179px;
+            height: 40px;
             border: none;
-            background: transparent;
-            font-style: normal;
-            // font-weight: 600;
-            font-size: 12px;
-            line-height: 16px;
-            color: #ffffff;
+            background: #ffffff;
+
+            font-family: Noto Sans;
+            font-weight: 500;
+            font-size: 17px;
+            line-height: 100%;
+
+            color: #000000;
             border-radius: 4px;
             margin-top: 15px;
             display: flex;
             justify-content: center;
             align-items: center;
             margin-left: 10px;
-            border: 0.5px solid white;
+
             img {
               width: 16px;
               height: 16px;
             }
+
             &.button-focused {
+              border: 2px solid #007AFF;
+
               // font-weight: 600;
               img {
                 width: 20px;
                 height: 20px;
               }
-              font-size: 13px;
+
             }
+
             &.Liked {
               background: #da513d;
             }
           }
         }
       }
+
       .imdbInfo {
         display: flex;
         flex-direction: column;
         justify-content: space-between;
         align-items: flex-end;
         flex: 1;
+
         .imdbRating {
           font-family: Inter;
           font-size: 20px;
@@ -154,6 +192,7 @@
           text-align: left;
           text-underline-position: from-font;
           text-decoration-skip-ink: none;
+
           .imdblogo {
             background: #f6c700;
             color: black;
@@ -162,6 +201,7 @@
             border-radius: 4px;
           }
         }
+
         .translatedDescription {
           font-family: Inter;
           font-size: 16px;
@@ -174,14 +214,17 @@
       }
     }
   }
+
   .you-may-like-container {
     display: flex;
     flex-direction: column;
     overflow: scroll;
+
     .trayModule {
       padding-top: 10px;
       padding-left: 30px;
     }
+
     .you-may-like-list .list-item {
       border-radius: 8px;
     }

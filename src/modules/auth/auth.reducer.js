@@ -1,35 +1,44 @@
 import CONSTANTS from "../../utils/constant";
 
-let authInfo = localStorage.getItem( CONSTANTS.siteName + "_login_data",);
+let authInfo = localStorage.getItem(CONSTANTS.siteName + "_login_data",);
 // let isLogin = localStorage.getItem("isLogin") || false;
 // console.log("authInfo=== ", authInfo);
 // isLogin = isLogin === "true" || isLogin === true;
 authInfo = authInfo ? JSON.parse(authInfo) : {};
-
 const initialState = {
 
 
-  user_email: authInfo.user_email || "",
+  emailid: authInfo.emailid || "",
   image: authInfo.image || "",
-  user_phone: authInfo.user_phone || "",
-  user_fullname: authInfo.user_fullname || "",
+  phone: authInfo.phone || "",
+  name: authInfo.name || "",
   user_id: authInfo.user_id || "",
   isLogin: authInfo.isLogin || "",
   mnumber: authInfo.mnumber || "",
   userlog: authInfo.userlog || "",
-  username: authInfo.username || "",
+  subscription: authInfo.subscription || "",
+  password: authInfo.password || "",
+  transaction: authInfo.transaction || "",
 
 
-  
+
 
 };
 const derivedState = {
 
-  email:  "",
+ 
+  emailid:  "",
   image:  "",
-  user_phone:  "",
-  user_fullname:  "",
+  phone:  "",
+  name:  "",
   user_id:  "",
+  isLogin:  "",
+  mnumber:  "",
+  userlog:  "",
+  subscription:  "",
+  password:  "",
+  transaction:  "",
+
 
 
 };

@@ -1,6 +1,6 @@
 import React, { memo, useEffect } from "react";
 import "./index.scss";
-import placeholder from "../../assets/image/placeholder.svg";
+import placeholder from "../../assets/image/placeholder.png";
 import { useFocusable } from "@noriginmedia/norigin-spatial-navigation";
 import { FocusableButton } from "../../components/button/index";
 import { getLanguage, typeMapper } from "../../utils/util";
@@ -97,9 +97,11 @@ const BannerListItem = ({ listData, focusHandler, isFocused, itemIndex }) => {
       });
     }
     if (pageName !== "live") {
+      let id = listData?.movieid|| listData?.id||"";
+      console.log(id, "Detailsid");
       navigate(`/${pageName}Details`, {
         state: {
-          id: listData.relation_id,
+          id: id,
           type: pageName,
         },
       });

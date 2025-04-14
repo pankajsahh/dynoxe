@@ -1,12 +1,11 @@
 import React, { memo, useEffect } from "react";
 import "./index.scss";
-import placeholder from "../../assets/image/placeholder.svg";
+import placeholder from "../../assets/image/placeholder.png";
 import { useFocusable } from "@noriginmedia/norigin-spatial-navigation";
 import { useNavigate } from "react-router-dom";
 
 export const SliderItem = memo(
   ({ listData, focusHandler, isFocused, itemIndex, totalItems }) => {
-    let videoData = listData?.episode || listData?.movie;
     let videoType = listData?.type;
     let description = "";
     if (videoType == "Movies") {
@@ -26,9 +25,11 @@ export const SliderItem = memo(
       },
     });
     const clickHandler = () => {
+      let id = listData?.movieid|| listData?.id||"";
+      console.log(id, "Detailsid");
       navigate(`/${videoType}Details`, {
         state: {
-          id: videoData.id,
+          id:id,
           type: videoType,
         },
       });

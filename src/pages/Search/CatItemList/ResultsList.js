@@ -5,7 +5,7 @@ import {
   useFocusable,
 } from "@noriginmedia/norigin-spatial-navigation";
 import { useNavigate } from "react-router-dom";
-import placeholder from "../../../assets/image/placeholder.svg";
+import placeholder from "../../../assets/image/placeholder.png";
 import { oldESscrollTo } from "../../../utils/util";
 const CatItem = ({
   item,
@@ -31,38 +31,14 @@ const CatItem = ({
   });
 
   const clickHandler = async () => {
-    if (videoType == "live") {
-      if (videoData.type == 1) {
-        navigate(`/movieDetails`, {
-          state: {
-            id: videoData.id,
-            type: "movie",
-          },
-        });
-      } else if (videoData.type == 2) {
-        navigate(`/seriesDetails`, {
-          state: {
-            id: videoData.id,
-            type: "series",
-          },
-        });
-      } else if (videoData.type == 3) {
-        navigate(`/live`, {
-          state: {
-            id: videoData?.id,
-            category: videoData?.category,
-            type: "live",
-          },
-        });
-      }
-    } else {
-      navigate(`/${videoType}Details`, {
-        state: {
-          id: videoData.id,
-          type: videoType,
-        },
-      });
-    }
+
+    navigate(`/${videoType}Details`, {
+      state: {
+        id: videoData.id,
+        type: videoType,
+      },
+    });
+
   };
   useEffect(() => {
     if (isFocused) {
@@ -76,9 +52,8 @@ const CatItem = ({
   return (
     <div
       ref={ref}
-      className={`list-item recent ${itemPosition(itemIndex)} ${
-        focused ? "focused" : ""
-      }`}
+      className={`list-item recent ${itemPosition(itemIndex)} ${focused ? "focused" : ""
+        }`}
       onClick={clickHandler}
     >
       <img

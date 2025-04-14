@@ -31,7 +31,6 @@ const Player = (props) => {
     isSkipIntroBtn: false,
     selectedLanguage: "",
     popupType: "",
-    video_url: props.location.state?.playerData?.url,
     title: props.location.state?.playerData?.title,
   });
   const [showCCselector, setShowCCSelector] = useState(false);
@@ -80,7 +79,7 @@ const Player = (props) => {
 
   const initialisePlayer = async () => {
     destroyPlayer();
-    const url = state.video_url;
+    const url = props.location.state?.playerData?.video;
     player.current = new VideoPlayer({
       url,
       banner: "",

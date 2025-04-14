@@ -89,14 +89,24 @@ const Login = (props) => {
         setError(response.data?.message);
       }
       if (response?.data?.status == 1) {
-        let data = { ...response?.data?.data, isLogin: true };
+        let userId = response?.data?.data?.user_id ? response?.data?.data?.user_id : response?.data?.data.userlog;
+        const formData = new FormData();
+        formData.append("userid", userId);
+        const userresponse = await axios.post(CONSTANTS.BASE_URL + "/get_profile", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+        console.log(userresponse?.data?.data, "userres");
+        let data = { ...userresponse?.data?.data, isLogin: true,user_id:userId };
         localStorage.setItem(
           CONSTANTS.siteName + "_login_data",
           JSON.stringify(data)
         );
+
         dispatch(setAuthInfo(data));
         navigate("/home");
-      } 
+      }
     } catch (error) {
       console.log(error.response?.data || error.message, "error");
     }

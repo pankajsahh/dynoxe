@@ -24,6 +24,12 @@ const Splash = (props) => {
   const fetchData = async () => {
     let arr = getlocaliseText("menu", [
       {
+        id: 5,
+        name: "Search",
+        icon: "searchIcon",
+        type_id: "search",
+      },
+      {
         id: 1,
         name: "Home",
         icon: "homeIcon",
@@ -36,23 +42,12 @@ const Splash = (props) => {
         type_id: "movies",
       },
       {
-        id: 3,
-        name: "Series",
-        icon: "SeriesIcon",
-        type_id: "series",
-      },
-      {
         id: 4,
-        name: "Favorites",
+        name: "My List",
         icon: "loveIcon",
         type_id: "favorites",
       },
-      {
-        id: 5,
-        name: "Search",
-        icon: "searchIcon",
-        type_id: "search",
-      },
+      
       {
         id: 6,
         name: "Profile",

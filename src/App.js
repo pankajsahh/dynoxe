@@ -21,7 +21,7 @@ import Login from "./pages/Login/Login";
 export const noMenuRoute = [
   "/auth",
   "/login",
-  "/movieDetails",
+  "/MoviesDetails",
   "/seriesDetails",
 ];
 
@@ -97,12 +97,12 @@ export default () => {
           {menu?.showMenu && <Menu />}
           <Routes>
             <Route
-              path="/seriesDetails"
+              path="/SeriesDetails"
               element={<ModuleMapperWithBack moduleName="SeriesDetailPage" />}
               key="series"
             />
             <Route
-              path="/movieDetails"
+              path="/MoviesDetails"
               element={<ModuleMapperWithBack moduleName="MovieDetailsPage" />}
               key="movie"
             />
@@ -111,19 +111,9 @@ export default () => {
                 element={<ModuleMapperWithBack moduleName="Home" />}
                 key="home"
               />
-            <Route
-              path="/live"
-              element={<ModuleMapperWithBack moduleName="LivePlayer" />}
-              key="live"
-            />
-            <Route
+         <Route
               path="/movies"
               element={<ModuleMapperWithBack moduleName="MoviePage" />}
-              key="movies"
-            />
-            <Route
-              path="/series"
-              element={<ModuleMapperWithBack moduleName="SeriesPage" />}
               key="movies"
             />
             <Route
@@ -175,7 +165,7 @@ export default () => {
               path="/"
               element={<ModuleMapperWithBack moduleName="Home" />}
             />
-            {/* <Route path="*" element={<NotFound />} /> */}
+            <Route path="*" element={<ModuleMapperWithBack moduleName="" />} />
           </Routes>
         </>
       )}

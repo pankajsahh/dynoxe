@@ -5,7 +5,7 @@
   "author": "pankaj sahu",
   "scripts": {
     "build": "rm -rf dist && webpack --config webpack.prod.config.js --mode production",
-    "build:watch": "webpack --config webpack.prod.config.js --watch --mode development"
+    "build:watch": "webpack serve --config webpack.prod.config.js"
   },
   "standard": {
     "parser": "@typescript-eslint/parser",
@@ -55,6 +55,7 @@
     "url-loader": "^4.1.1",
     "webpack": "^5.53.0",
     "webpack-cli": "^4.8.0",
+    "webpack-dev-server": "^4.15.2",
     "webpack-merge": "^5.8.0"
   }
 }

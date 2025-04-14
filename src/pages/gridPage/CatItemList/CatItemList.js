@@ -5,7 +5,7 @@ import {
   useFocusable,
 } from "@noriginmedia/norigin-spatial-navigation";
 import { useLocation, useNavigate } from "react-router-dom";
-import placeholder from "../../../assets/image/placeholder.svg";
+import placeholder from "../../../assets/image/placeholder.png";
 import { oldESscrollTo } from "../../../utils/util";
 import usePageData from "../../../helpers/pageApi";
 import CONSTANTS from "../../../utils/constant";

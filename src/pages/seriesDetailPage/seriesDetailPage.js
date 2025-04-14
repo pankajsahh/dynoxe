@@ -2,7 +2,7 @@ import React, { Fragment, useCallback, useEffect, useState } from "react";
 import "./index.scss";
 import Loader from "../../components/Loader";
 import CONSTANTS from "../../utils/constant";
-import placeholder from "../../assets/image/placeholder.svg";
+import placeholder from "../../assets/image/placeholder.png";
 import loveIcon from "../../assets/image/navIcons/love.svg";
 import usePageData from "../../helpers/pageApi";
 import List from "../../components/List";
@@ -15,7 +15,6 @@ import {
   formatTimeHHMM,
   getLanguage,
   getParentalLock,
-  oldESscrollTo,
 } from "../../utils/util";
 import { FocusableButton } from "../../components/button";
 import { useLocation, useNavigate } from "react-router-dom";
