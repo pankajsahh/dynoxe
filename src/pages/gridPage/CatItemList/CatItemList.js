@@ -10,14 +10,13 @@ import { oldESscrollTo } from "../../../utils/util";
 import usePageData from "../../../helpers/pageApi";
 import CONSTANTS from "../../../utils/constant";
 import Loader from "../../../components/Loader";
-const CatItem = ({
+const CatItemn = ({
   item,
   focusHandler,
   isFocused,
   itemPosition,
   itemIndex,
   videoType,
-  setfocusedGridItem,
 }) => {
   let videoData = item;
   let cardWidth = 193;
@@ -32,11 +31,9 @@ const CatItem = ({
   const { ref, focused, focusSelf } = useFocusable({
     onFocus: (props) => {
       focusHandler(props);
-      setfocusedGridItem(item);
+    
     },
-    onBlur: () => {
-      setfocusedGridItem(null);
-    },
+   
     onEnterPress: () => {
       clickHandler();
     },
@@ -68,10 +65,9 @@ const CatItem = ({
         height={280}
         src={
           (videoType == "series"
-            ? videoData.imagePath
-            : videoData?.posterImage) ||
-          "https://s3-alpha-sig.figma.com/img/3267/8dc2/7b5e762f2f606216c312d39d07dc8542?Expires=1736726400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=YZcMcTAHD5eBD1J~YQ-V0rSMBl2sLOSIS7is7aKi-xnbrA2z8C07IQpVo8F9gZkqwNAtsRChGWdzSi2YMoj2DxJ~CYO1drmE-yEimCCoNImaSiMWjMPfzctQJ7u4ihT33fjAbN6fYhaDjXzGXgqondcV0n1e1EQq0MkQRJ16bbGlmeah1tFuy-VxbyK1CMBvRtBhzCNCf6Qfj-0vi0krvIJ6kamY~t-U8OYSpNO9gIZGU8QB2r9YCDxmaaLZSiciZFfgPLotk0Ilurec0aIVsygAaY30J27iw7Umxgi8LrH65Fz6tIG4mGUI8dEfpdS6vMPRFSj1ubTu87Iy0E4t3w__"
-        }
+            ? videoData.image
+            : videoData?.image) ||
+          placeholder}
         onError={({ currentTarget }) => {
           currentTarget.onerror = null; // prevents looping
           currentTarget.src = placeholder;
@@ -87,75 +83,116 @@ const CatItem = ({
   );
 };
 
-const CatItemList = memo(
-  ({ setfocusedGridItem, selectedCatagory, isFocused, pageType }) => {
-    const { ref, focusKey } = useFocusable();
-    let selectedCatagoryId = selectedCatagory?.id;
-    let url = `${CONSTANTS.BASE_URL}/${pageType}/category/id/${selectedCatagoryId}`;
-    if (selectedCatagory?.category == "Recently Added") {
-      url = `${CONSTANTS.BASE_URL}/${pageType}/all`;
+
+
+
+const CatItem = ({
+  item,
+  focusHandler,
+  isFocused,
+  itemIndex,
+  videoType,
+ }) => {
+  let cardWidth = 240;
+  let watchedTime = item?.seconds;
+  let totalTime = item?.duration;
+  let watchPercentage =
+    isNaN(watchedTime) || isNaN(totalTime) || totalTime === 0
+      ? 0
+      : watchedTime / totalTime;
+  watchPercentage = Math.min(Math.max(watchPercentage, 0), 1);
+  const navigate = useNavigate();
+  const { ref, focused, focusSelf } = useFocusable({
+    onFocus: (props) => {
+      focusHandler(props);
+    },
+    onEnterPress: () => {
+      clickHandler();
+    },
+  });
+  const clickHandler = () => {
+    let id = item?.movieid|| item?.id||"";
+    console.log(id, "Detailsid");
+    navigate(`/${videoType}Details`, {
+      state: {
+        id: id,
+        type: videoType,
+      },
+    });
+  };
+  useEffect(() => {
+    if (isFocused) {
+      focusSelf();
     }
-    const { pageData, loading } = usePageData(url);
-    const [displayedItems, setDisplayedItems] = useState([]);
-    const [itemsToShow, setItemsToShow] = useState(24);
+  }, [focusSelf]);
+  let imgUrl = item.image;
+  return (
+    <div
+      ref={ref}
+      className={`list-item recent ${focused ? "focused" : ""}`}
+      onClick={clickHandler}
+      style={{ marginRight: "10px"}}
+    >
+      <img
+        width={cardWidth}
+        height={135}
+        src={imgUrl || placeholder}
+        onError={({ currentTarget }) => {
+          currentTarget.onerror = null; // prevents looping
+          currentTarget.src = placeholder;
+        }}
+        loading="lazy"
+        alt="..."
+      />
+      {item?.title && <div className="title">{item.title}</div>}
+      {item?.rentp && <div className="leftTag">{item.rentp}</div>}
+      {item?.buyp && <div className="leftTag">{item.buyp}</div>}
+      {(!item?.buyp && !item?.rentp) && <div className="leftTag">Free</div>}
+      <div
+        style={{ width: cardWidth * watchPercentage + "px" }}
+        className="watchedLine"
+      ></div>
+    </div>
+  );
+};
+
+
+
+
+const CatItemList = memo(
+  ({ pageData, selectedCatagory, isFocused, pageType }) => {
+    if(pageType=="movie"){
+      if(selectedCatagory==null){
+        pageData = pageData?.data?.movies.flatMap(obj => obj.movie_data) || [];
+      }else{
+        pageData = pageData?.data?.movies.find(item=>item.name==selectedCatagory?.name)?.movie_data || [];
+      }
+    }else{  
+      pageData = pageData?.data?.tvshows;
+    }
+    const { ref, focusKey } = useFocusable();
+    
     const scrollinRef = useRef(null);
 
-    useEffect(() => {
-      if (pageData) {
-        setDisplayedItems(pageData.slice(0, itemsToShow));
-      }
-    }, [pageData, itemsToShow]);
 
     const onRowFocus = useCallback(
       ({ y }) => {
         oldESscrollTo(scrollinRef.current, 0, y);
-        if (y + window.innerHeight >= scrollinRef.current.scrollHeight) {
-          setItemsToShow((prev) => prev + 24);
-        }
       },
       [scrollinRef]
     );
-
-    const itemPositionIdentifier = (Itemindex) => {
-      let totalItems = displayedItems.length;
-      let itemsInRow = 6; // hard coded
-      let yaxis = "top";
-      let totalNoOfItemsInBottomArray = totalItems % itemsInRow;
-      if (totalNoOfItemsInBottomArray == 0) {
-        if (Itemindex >= totalItems - itemsInRow) {
-          yaxis = "bottom";
-        }
-      } else {
-        if (
-          Itemindex >= totalItems - itemsInRow &&
-          totalItems - Itemindex <= totalNoOfItemsInBottomArray
-        ) {
-          yaxis = "bottom";
-        }
-      }
-
-      if (Itemindex % itemsInRow == 0) {
-        return "start " + yaxis;
-      } else if ((Itemindex + 1) % itemsInRow == 0) {
-        return "end " + yaxis;
-      } else {
-        return "mid " + yaxis;
-      }
-    };
 
     return (
       <FocusContext.Provider value={focusKey}>
         <div ref={ref} className="CatItemListContainer">
           <div ref={scrollinRef} className="CatList">
-            {!loading ? (
-              displayedItems?.map((item, index) => (
+            {pageData?.length>0 ? (
+              pageData?.map((item, index) => (
                 <CatItem
-                  isFocused={isFocused && index == 0 ? true : false}
+                  isFocused={index == 0 ? true : false}
                   key={index}
                   item={item}
-                  setfocusedGridItem={setfocusedGridItem}
                   itemIndex={index}
-                  itemPosition={itemPositionIdentifier}
                   focusHandler={onRowFocus}
                   videoType={pageType}
                 />

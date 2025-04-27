@@ -39,7 +39,7 @@ const withBackFunctionality = (Component) => {
     useEffect(() => {
       document.addEventListener("keydown", onkeydownOnthisPage);
       setParentalLockNumber("1234");
-      setParentalLock('true');
+      setParentalLock("true");
       return () => {
         document.removeEventListener("keydown", onkeydownOnthisPage);
       };
@@ -54,7 +54,7 @@ const ModuleMapper = ({ moduleName }) => {
     case "Auth":
       return <Auth />;
     case "Login":
-      return  <Login /> ;
+      return <Login />;
     case "MovieDetailsPage":
       return <MovieDetailsPage />;
     case "Search":
@@ -106,14 +106,19 @@ export default () => {
               element={<ModuleMapperWithBack moduleName="MovieDetailsPage" />}
               key="movie"
             />
-              <Route
-                path="/home"
-                element={<ModuleMapperWithBack moduleName="Home" />}
-                key="home"
-              />
-         <Route
+            <Route
+              path="/home"
+              element={<ModuleMapperWithBack moduleName="Home" />}
+              key="home"
+            />
+            <Route
               path="/movies"
               element={<ModuleMapperWithBack moduleName="MoviePage" />}
+              key="movies"
+            />
+            <Route
+              path="/series"
+              element={<ModuleMapperWithBack moduleName="SeriesPage" />}
               key="movies"
             />
             <Route

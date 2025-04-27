@@ -42,6 +42,12 @@ const Splash = (props) => {
         type_id: "movies",
       },
       {
+        id: 3,
+        name: "TV Shows",
+        icon: "series",
+        type_id: "series",
+      },
+      {
         id: 4,
         name: "My List",
         icon: "loveIcon",

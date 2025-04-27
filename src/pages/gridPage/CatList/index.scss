@@ -8,34 +8,35 @@
     overflow: scroll;
     width: 90%;
     margin-top: 20px;
+    margin-bottom: 10px;
     .CatBox {
-      min-width: 120px;
-      height: 20px;
+      min-width: 143px;
+      height: 47px;
+      border-radius: 7px;
+
       padding: 8px;
-      border-radius: 20px;
+
       border: 1px solid transparent;
       display: flex;
       justify-content: center;
       align-items: center;
       margin-right: 5px;
-      font-family: Inter;
+      font-family: Poppins;
+      font-weight: 600;
       font-size: 16px;
-      font-weight: 500;
-      line-height: 24px;
-      text-align: center;
-      text-underline-position: from-font;
-      text-decoration-skip-ink: none;
+      line-height: 100%;
+      letter-spacing: 0%;
 
       &.focused {
         color: #151515;
-        background: white;
+        background: #179efb;
       }
       &.selected {
         color: white;
-        background: #da513d;
+        background: #1d384a;
         &.focused {
           color: #151515;
-          background: white;
+          background: #179efbcc;
         }
       }
     }

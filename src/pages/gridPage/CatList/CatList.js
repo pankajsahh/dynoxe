@@ -69,7 +69,7 @@ const CatList = memo(({selectedCatIndex, CategoryList,setSelectedCatIndex }) => 
                   selectedSeasonIndex={selectedCatIndex}
                   isFocused={false}
                   key={index}
-                  item={item.category}
+                  item={item.name}
                   itemIndex={index}
                   focusHandler={onRowFocus}
                   setSelectedSeason={setSelectedCatIndex}

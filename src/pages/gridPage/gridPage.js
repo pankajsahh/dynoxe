@@ -1,4 +1,4 @@
-import React, { Fragment, useCallback, useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./index.scss";
 import Loader from "../../components/Loader";
 import CONSTANTS from "../../utils/constant";
@@ -7,11 +7,7 @@ import {
   FocusContext,
   useFocusable,
 } from "@noriginmedia/norigin-spatial-navigation";
-import { formatTimeHHMM, oldESscrollTo } from "../../utils/util";
-import { FocusableButton } from "../../components/button";
-import { useLocation, useNavigate } from "react-router-dom";
-import axios from "axios";
-import { useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 import CatList from "./CatList/CatList";
 import CatItemList from "./CatItemList/CatItemList";
 import { getlocaliseText } from "../../utils/localisation";
@@ -22,43 +18,44 @@ const GridPage = () => {
     saveLastFocusedChild: true,
   });
   const location = useLocation();
-  const [focusedGridItem, setfocusedGridItem] = useState(null);
   let pageType = location?.state?.PageType == "movies" ? "movie" : "series";
-  const { pageData, loading, error } = usePageData(
-    `${CONSTANTS.BASE_URL}/${pageType}/category/all`
-  );
+  let url = `${CONSTANTS.BASE_URL}/get_movie`;
+  if (pageType == "movie") {
+    url = `${CONSTANTS.BASE_URL}/get_movie`;
+  } else {
+    url = `${CONSTANTS.BASE_URL}/get_tvshow`;
+  }
+  const { pageData, loading } = usePageData(url);
+  console.log("pageData", pageData?.data?.categories);
   let CategoryList = [];
   if (pageData) {
-    CategoryList = [
-      { category: "Recently Added", categoryAr: "الأعلى تقييمًا", id: 20000 },
-      ...pageData,
-    ];
+    CategoryList = [...pageData?.data?.categories];
   }
-  const [selectedCatIndex, setSelectedCatIndex] = useState(0);
-  const findMovieName = () => {
-    if (focusedGridItem?.title) {
-      return focusedGridItem.title;
-    }
-    return location?.state?.PageType == "movies"
-      ? getlocaliseText("GridMoviePageTitle", "movies")
-      : getlocaliseText("GridSeriesPageTitle", "series");
-  };
+  const [selectedCatIndex, setSelectedCatIndex] = useState(null);
+
   return (
     <FocusContext.Provider value={focusKey}>
       <div ref={ref} className="Grid-page">
-        <div className="title">{findMovieName()}</div>
         <div className="Grid-page-container">
           {CategoryList && (
             <>
               <CatList
                 CategoryList={CategoryList}
                 selectedCatIndex={selectedCatIndex}
-                setSelectedCatIndex={setSelectedCatIndex}
+                setSelectedCatIndex={(index)=>{
+                  console.log("index",index)
+                  if(index==selectedCatIndex){
+                    setSelectedCatIndex(null);
+                  }else{
+                    setSelectedCatIndex(index);
+                  }
+                  
+                }}
               />
               <CatItemList
-                setfocusedGridItem={setfocusedGridItem}
-                selectedCatagory={CategoryList[selectedCatIndex]}
+                selectedCatagory={selectedCatIndex!==null?CategoryList[selectedCatIndex]:null}
                 isFocused={true}
+                pageData={pageData}
                 pageType={pageType}
               />
             </>
