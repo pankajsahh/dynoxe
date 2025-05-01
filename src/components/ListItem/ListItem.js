@@ -80,32 +80,15 @@ const BannerListItem = ({ listData, focusHandler, isFocused, itemIndex }) => {
     }
   };
   const clickHandler = async () => {
-    let pageName = typeMapper(listData.type);
-    if (pageName === "live") {
-      await defaultChannelFinder({
-        id: listData?.relation_id,
-        category: listData?.extra,
-        type: pageName,
-      });
-
-      navigate(`/live`, {
-        state: {
-          id: listData?.relation_id,
-          category: listData?.extra,
-          type: pageName,
-        },
-      });
-    }
-    if (pageName !== "live") {
-      let id = listData?.movieid|| listData?.id||"";
-      console.log(id, "Detailsid");
-      navigate(`/${pageName}Details`, {
-        state: {
-          id: id,
-          type: pageName,
-        },
-      });
-    }
+    console.log(videoType, "videoType");
+    let id = item?.movieid || item?.id || "";
+    console.log(id, "Detailsid");
+    navigate(`/MoviesDetails`, {
+      state: {
+        id: id,
+        type: videoType,
+      },
+    });
   };
   return (
     <div

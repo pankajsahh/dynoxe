@@ -26,7 +26,6 @@ const GridPage = () => {
     url = `${CONSTANTS.BASE_URL}/get_tvshow`;
   }
   const { pageData, loading } = usePageData(url);
-  console.log("pageData", pageData?.data?.categories);
   let CategoryList = [];
   if (pageData) {
     CategoryList = [...pageData?.data?.categories];

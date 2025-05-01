@@ -25,7 +25,7 @@ const RecentListItem = ({ listData, focusHandler, isFocused, itemIndex }) => {
   const clickHandler = () => {
     let id = listData?.movieid|| listData?.id||"";
     console.log(id, "Detailsid");
-    navigate(`/${videoType}Details`, {
+    navigate(`/MoviesDetails`, {
       state: {
         id: id,
         type: videoType,

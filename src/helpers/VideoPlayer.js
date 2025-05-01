@@ -1,4 +1,5 @@
 import { mimeType } from "../utils/util";
+import videojs from "video.js";
 class VideoPlayer {
   constructor(options) {
     this.options = options;

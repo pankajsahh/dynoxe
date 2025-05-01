@@ -34,7 +34,7 @@ const Player = (props) => {
     title: props.location.state?.playerData?.title,
   });
   const [showCCselector, setShowCCSelector] = useState(false);
-  const playerType = props.location.state.playerType;
+  const playerType = props?.location?.state?.playerType;
   const playerRef = useRef(null);
   const dummy = useRef(null);
   const playpause = useRef(null);
