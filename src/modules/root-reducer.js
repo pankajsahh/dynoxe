@@ -1,5 +1,4 @@
 import { combineReducers } from "redux";
-import { connectRouter } from "connected-react-router";
 
 import auth from "./auth/auth.reducer";
 import splash from "./splash/splash.reducer";
@@ -15,7 +14,7 @@ export default function (history) {
   return combineReducers({
     splash,
     auth,
-    router: connectRouter(history),
+    // router: connectRouter(history),
     player,
     menu,
     common,

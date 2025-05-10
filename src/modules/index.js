@@ -1,13 +1,11 @@
 import { createStore, applyMiddleware, compose } from "redux";
-import { routerMiddleware } from "connected-react-router";
-import thunk from "redux-thunk";
 import logger from "redux-logger";
 import createRootReducer from "./root-reducer";
 
 const isClient = typeof window !== "undefined";
 
 export default (history, initialState = {}) => {
-  const middlewares = [thunk, routerMiddleware(history)];
+  const middlewares = [];
 
   if (isClient && process.env.NODE_ENV !== "production") {
     middlewares.push(logger);

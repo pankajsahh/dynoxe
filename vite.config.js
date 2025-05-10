@@ -1,29 +1,58 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import { createHtmlPlugin } from 'vite-plugin-html'
-
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import { createHtmlPlugin } from "vite-plugin-html";
+import legacy from '@vitejs/plugin-legacy'
 export default defineConfig({
+  base: "./",
+  build: {
+    minify: "terser",
+    terserOptions: {
+      compress: true,
+      mangle: true,
+    },
+  },
   esbuild: {
-    loader: 'jsx',
+    loader: "jsx",
   },
   optimizeDeps: {
     esbuildOptions: {
       loader: {
-        '.js': 'jsx',
+        ".js": "jsx",
       },
     },
   },
-  plugins: [react({
-    // enable JSX in .js files
-    babel: {
-      plugins: ['@babel/plugin-transform-react-jsx'],
-    },
-    include: '**/*.js', // treat all .js files as potential JSX
-  }),
+  plugins: [
+    legacy({
+      // The browsers that must be supported by your legacy bundle.
+      // https://babeljs.io/docs/en/babel-preset-env#targets
+      targets: [
+        '> 0.5%',
+        'last 2 versions',
+        'Firefox ESR',
+        'not dead',
+      ],
+      // Define which polyfills your legacy bundle needs. They will be loaded
+      // from the Polyfill.io server. See the "Polyfills" section for more info.
+      polyfills: [
+        // Empty by default
+      ],
+      // Toggles whether or not browserslist config sources are used.
+      // https://babeljs.io/docs/en/babel-preset-env#ignorebrowserslistconfig
+      ignoreBrowserslistConfig: false,
+      // When true, core-js@3 modules are inlined based on usage.
+      // When false, global namespace APIs (eg: Object.entries) are loaded
+      // from the Polyfill.io server.
+      corejs: false,
+    }), react({
+      // enable JSX in .js files
+      babel: {
+        plugins: ["@babel/plugin-transform-react-jsx"],
+      },
+      include: "**/*.js", // treat all .js files as potential JSX
+    }),
     createHtmlPlugin({
-      entry: 'src/index.js',
-      template: 'index.html',
-      })
-      
-    ]
-})
+      entry: "src/index.js",
+      template: "index.html",
+    }),
+  ],
+});
