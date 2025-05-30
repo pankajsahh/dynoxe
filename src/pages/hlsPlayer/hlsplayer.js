@@ -742,7 +742,7 @@ const Player = (props) => {
             onKeyDown={keyDownHandler}
             onClick={clickHandler}
           />
-          <img
+          {/* <img
             src={captionIcon}
             className="captions"
             id="captions"
@@ -750,7 +750,7 @@ const Player = (props) => {
             tabIndex={0}
             onKeyDown={keyDownHandler}
             onClick={clickHandler}
-          />
+          /> */}
         </div>
         <div className="time-controls">
           <div
