@@ -79,7 +79,10 @@ const Player = (props) => {
 
   const initialisePlayer = async () => {
     destroyPlayer();
-    const url = props.location.state?.playerData?.video;
+    let url = props.location.state?.playerData?.video;
+    if(playerType=="movietrailer"){
+      url = props.location.state?.playerData?.stm_trailer_url;
+    }
     player.current = new VideoPlayer({
       url,
       banner: "",
@@ -144,7 +147,7 @@ const Player = (props) => {
         updateSeekbar(player.current.currentTime(), duration);
         if (currentTime >= lastTime + 10) {
           lastTime = currentTime;
-          updateWatchTime(currentTime);
+          // updateWatchTime(currentTime);
         }
 
         break;

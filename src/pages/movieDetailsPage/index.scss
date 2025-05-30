@@ -111,7 +111,28 @@
         .buttonsContainer {
           display: flex;
           margin-top: 15px;
+          .trailer{
+             width: 179px;
+            height: 40px;
+            border: none;
+            background: #007AFF;
 
+            font-family: Noto Sans;
+            font-weight: 500;
+            font-size: 17px;
+            line-height: 100%;
+
+            color: #ffffff;
+            border-radius: 4px;
+            margin-top: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-left: 8px;
+            &.button-focused {
+              border: 2px solid #ffffff;
+            }
+          }
           .watchNowBtn {
             width: 179px;
             height: 40px;
@@ -171,7 +192,8 @@
             }
 
             &.Liked {
-              background: #da513d;
+              background: #5771b3;
+              color: white;
             }
           }
         }

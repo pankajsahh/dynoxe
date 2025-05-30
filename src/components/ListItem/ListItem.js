@@ -31,54 +31,7 @@ const BannerListItem = ({ listData, focusHandler, isFocused, itemIndex }) => {
       focusSelf();
     }
   }, [focusSelf]);
-  const defaultChannelFinder = async ({ id, category }) => {
-    try {
-      let channelId = id;
-      let channelCat = category;
-      const response = await axios.get(
-        `${CONSTANTS.BASE_URL}/live/category/all`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Accept-Language": getLanguage(),
-          },
-        }
-      );
-      const selectedLiveCatagoryIndex = response?.data?.findIndex(
-        (item) => item == channelCat
-      );
-      const channelResponse = await axios.get(
-        `${CONSTANTS.BASE_URL}/live/all?category=${response?.data[selectedLiveCatagoryIndex]}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Accept-Language": getLanguage(),
-          },
-        }
-      );
-      let channelList = Object.values(channelResponse?.data);
-      let selectedLiveChannelIndex = channelList?.findIndex(
-        (item) => Number(item.id) == Number(channelId)
-      );
-      if(selectedLiveChannelIndex==-1) selectedLiveChannelIndex=0;
-      dispatch(
-        selectedLiveCatagory({
-          selectedLiveCatagory: selectedLiveCatagoryIndex,
-        })
-      );
-      dispatch(
-        selectedLiveChannel({ selectedLiveChannel: selectedLiveChannelIndex })
-      );
-      dispatch(
-        selectedLiveData({
-          selectedLiveData: channelList[selectedLiveChannelIndex],
-        })
-      );
-      console.log(channelList, "catt", channelId);
-    } catch (error) {
-      console.error("Error fetching channel data:", error);
-    }
-  };
+ 
   const clickHandler = async () => {
     console.log(videoType, "videoType");
     let id = item?.movieid || item?.id || "";
