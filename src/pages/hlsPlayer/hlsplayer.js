@@ -17,12 +17,14 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 import axios from "axios";
 import { DataPopup } from "../../components/Popup/DataPopup/DataPopup";
+import AdsPlayer from "../../components/adsPlayer/AdsPlayer";
 let seekTime = 0;
 let lastTime = 0;
 let seekTimeout = null;
 let pullingTime = null;
 let currentTime = 0;
 let track = null;
+let AdSource = null;
 const Player = (props) => {
   const [state, setState] = useState({
     isLoader: true,
@@ -46,7 +48,38 @@ const Player = (props) => {
   const [isPlayerPaused, setIsPlayerPaused] = useState(true);
   const player = useRef(null);
   let controlTimeout = useRef(null);
-
+  const getAdsData = async () => {
+    console.log(props.location.state.playerData, "ads");
+    let movieId = props?.location?.state?.playerData?.id;
+    const formData = new FormData();
+    formData.append("movieId", movieId);
+    try {
+      const response = await axios.post(
+        `${CONSTANTS.BASE_URL}/fetchadvs`,
+        formData
+      );
+      console.log(response?.data, "ads response");
+      if (response?.data && response?.data?.length > 0) {
+        AdSource = response?.data;
+      }
+    } catch (err) {
+      console.log(err, "ads error");
+    }
+  };
+  const onAdsEnded = (playedAd) => {
+    AdSource = AdSource.map((item) => {
+      if (item.id === playedAd.id) {
+        item.nooftime = item.nooftime - 1;
+        if (item.nooftime <= 0) {
+           item.played = true;
+        }
+       
+      }
+      return item;
+    });
+    window.AdsPlaying = false;
+    player.current.play();
+  };
   useEffect(() => {
     props.showMenu({ showMenu: false });
     if (dummy.current && !state.popupType) {
@@ -65,6 +98,7 @@ const Player = (props) => {
   }, []);
 
   useEffect(() => {
+    window.AdsPlaying = false;
     if (props.menu.showMenu) {
       props.showMenu({ showMenu: false });
     }
@@ -76,11 +110,41 @@ const Player = (props) => {
       dummy.current.focus();
     }
   }, []);
+  const getAdsPlayBackURLs = (time) => {
+    if (AdSource.length > 0) {
+      let adNeedToPlayed = AdSource.find((item) => {
+        console.log(item, "item");
+        return (item.nooftime > 0 && item.time <= time );
+      });
+
+      if (adNeedToPlayed?.played) {
+        return undefined;
+      }
+      return adNeedToPlayed;
+    }
+    return undefined;
+  };
+  const playAds = async (progresstime, totalTime) => {
+    let time = progresstime;
+    if (AdSource && AdSource?.length) {
+      let AdsMediaPlayBack = await getAdsPlayBackURLs(time);
+      if (AdsMediaPlayBack) {
+        console.log(AdsMediaPlayBack, "AdsPlayerPlayback");
+        try {
+          player?.current?.pause();
+        } catch (e) {}
+        window.AdsPlaying = true;
+        await AdsPlayer(AdsMediaPlayBack, onAdsEnded);
+        window.AdsPlaying = false;
+      }
+    }
+  };
 
   const initialisePlayer = async () => {
     destroyPlayer();
-    let url = props.location.state?.playerData?.video;
-    if(playerType=="movietrailer"){
+    await getAdsData();
+    let url = "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"; // props.location.state?.playerData?.video;
+    if (playerType == "movietrailer") {
       url = props.location.state?.playerData?.stm_trailer_url;
     }
     player.current = new VideoPlayer({
@@ -91,11 +155,9 @@ const Player = (props) => {
       playerCallback,
     });
     player.current.init();
-    if (props.location.state?.resumeFrom){
-        player.current.seek(props.location.state?.resumeFrom);
+    if (props.location.state?.resumeFrom) {
+      player.current.seek(props.location.state?.resumeFrom);
     }
-
-    
   };
 
   const videoEndedEvent = () => {
@@ -105,7 +167,7 @@ const Player = (props) => {
   const playerCallback = (type, current, duration) => {
     switch (type) {
       case "READY":
-        loadAndDisplaySubtitles();
+        // loadAndDisplaySubtitles();
         break;
       case "LOADED_METADATA":
         controlVisibility();
@@ -144,6 +206,7 @@ const Player = (props) => {
           );
         }
         currentTime = player.current.currentTime();
+
         updateSeekbar(player.current.currentTime(), duration);
         if (currentTime >= lastTime + 10) {
           lastTime = currentTime;
@@ -176,6 +239,16 @@ const Player = (props) => {
       case "RATE_CHANGE":
         break;
       case "PROGRESS":
+        if (AdSource.length > 0 && !window?.AdsPlaying) {
+          playAds(
+            Math.floor(player.current.currentTime()),
+            Math.ceil(duration)
+          );
+        }
+        if (window?.AdsPlaying) {
+          player?.current?.pause();
+          return;
+        }
         // setState((prevState) => ({ ...prevState, isLoader: true }));
         break;
       case "VOLUME_CHANGE":
@@ -256,7 +329,7 @@ const Player = (props) => {
 
   const loadAndDisplaySubtitles = (counterVariable) => {
     const subtitles = props.location.state?.playerData?.subtitles;
-    console.log(subtitles,"sstt");
+    console.log(subtitles, "sstt");
     if (counterVariable >= subtitles.length) {
       enableCC("arabic");
       return;
@@ -533,7 +606,7 @@ const Player = (props) => {
         skipIntroClick();
         break;
       case "captions":
-        setShowCCSelector(()=>{
+        setShowCCSelector(() => {
           disablePlayerControls();
           return true;
         });
@@ -694,6 +767,7 @@ const Player = (props) => {
         ref={playerRef}
         onClick={dummyClickHandler}
       ></div>
+      <div id="ad-container" style={{ visibility: "hidden" }}></div>
       <div className="player-title" ref={titleRef}>
         {state?.title}
       </div>
@@ -810,16 +884,21 @@ const Player = (props) => {
       {showCCselector ? (
         <DataPopup
           style={{ justifyContent: "center" }}
-          popupData={['OFF',...props.location.state?.playerData?.subtitles.map(item=>item?.language)]}
-          popupCallback={(e,option) => {
-            if("OFF"==option.value){
+          popupData={[
+            "OFF",
+            ...props.location.state?.playerData?.subtitles.map(
+              (item) => item?.language
+            ),
+          ]}
+          popupCallback={(e, option) => {
+            if ("OFF" == option.value) {
               enableCC("");
-            }else{
-              enableCC(option.value)
+            } else {
+              enableCC(option.value);
             }
             setShowCCSelector(false);
             EnablePlayerControls();
-            if(playpause.current) playpause.current.focus();
+            if (playpause.current) playpause.current.focus();
           }}
         />
       ) : null}
