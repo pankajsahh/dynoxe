@@ -617,7 +617,7 @@ const Player = (props) => {
           return true;
         });
         break;
-    }
+    } 
   };
 
   const dummyKeyDownHandler = (e) => {
