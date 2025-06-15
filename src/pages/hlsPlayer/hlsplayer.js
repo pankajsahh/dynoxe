@@ -49,7 +49,7 @@ const Player = (props) => {
   const player = useRef(null);
   let controlTimeout = useRef(null);
   const getAdsData = async () => {
-    console.log(props.location.state.playerData, "ads");
+    console.log(props?.location?.state?.playerData, "ads");
     let movieId = props?.location?.state?.playerData?.id;
     const formData = new FormData();
     formData.append("movieId", movieId);
@@ -510,6 +510,7 @@ const Player = (props) => {
   };
 
   const keyDownHandler = (e) => {
+    if(showCCselector) return;
     e.stopPropagation();
     e.preventDefault();
     let key = e.keyCode;
@@ -620,6 +621,7 @@ const Player = (props) => {
   };
 
   const dummyKeyDownHandler = (e) => {
+    if(showCCselector) return;
     e.stopPropagation();
     e.preventDefault();
     let key = e.keyCode;

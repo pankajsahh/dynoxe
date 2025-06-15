@@ -1,78 +1,62 @@
-import React, { useEffect, useRef } from "react";
+import React, { use, useEffect, useRef } from "react";
 import "./index.scss";
 import KEY from "../../../utils/key";
+import { FocusContext, useFocusable } from "@noriginmedia/norigin-spatial-navigation";
 export const DataPopup = (props) => {
-  const { popupData, popupCallback, defaultValue } = props;
-  const defaultFocusEle = useRef();
+  const { popupData, popupCallback } = props;
+  const {ref ,focusSelf ,focusKey} = useFocusable();
+
   useEffect(() => {
-    if (defaultFocusEle?.current) {
-      defaultFocusEle?.current?.focus();
-    }
+      ref.current?.focus();
+      focusSelf();
   }, []);
 
-  const keydownHandler = (e) => {
-    e.stopPropagation();
-    e.preventDefault();
-    const key = e.keyCode;
-    switch (key) {
-      case KEY.ENTER:
-        clickHandler(e);
-        break;
-      case KEY.UP:
-        if (e.target.previousSibling) {
-          e.target.previousSibling.focus();
-        }
-        break;
-      case KEY.DOWN:
-        if (e.target.nextSibling) {
-          e.target.nextSibling.focus();
-        }
-        break;
-      case KEY.BACK:
-        popupCallback("close");
-        break;
-    }
-  };
-  const clickHandler = (e) => {
-    e.stopPropagation();
-    e.preventDefault();
-    const { value, type, label } = e.target.dataset;
+  
+  const clickHandler = ({ value, type, label }) => {
     popupCallback("selected", { type, value, label });
   };
   return (
+    
     <div className="modal-wrapper">
       <div className="modal-wrapper__content-wrapper">
-        <ul
-          className="data-list"
-          onKeyDown={keydownHandler}
-          onClick={clickHandler}
-        >
+          <FocusContext.Provider value={focusKey}>
+        <div className="data-list"  ref={ref}>
           {popupData?.map((item, index) => {
             return (
-              <li
-                className={`data-list-item ${
-                  defaultValue == item ? "active" : ""
-                }`}
-                tabIndex={0}
+              <DataPopupItem
                 key={item}
-                data-label={item}
-                data-value={item}
-                ref={
-                  defaultValue == item
-                    ? defaultFocusEle
-                    : index == 0
-                    ? defaultFocusEle
-                    : null
-                }
-              >
-                <span data-value={item}>+ {item}</span>
-                <span className="check" data-value={item}></span>
-              </li>
+                item={item}
+                clickHandler={clickHandler}
+                index={index}
+                isFocused={index==0}
+              />
             );
           })}
-        </ul>
+        </div>
+        </FocusContext.Provider>
       </div>
     </div>
   );
 };
 
+const DataPopupItem = (props) => {
+  const { item, clickHandler, isFocused } = props;
+  const {ref,focusSelf,focused} = useFocusable({onEnterPress:()=> clickHandler({value:item})});
+  useEffect(() => {
+    if (isFocused) {
+      focusSelf();
+    }
+  }, [isFocused, focusSelf]);
+  return (
+    <div
+      className={`data-list-item ${
+        focused ? " data-list-item--selected " : ""
+      }`}
+      onClick={()=>clickHandler({ value:item })}
+      ref={ref}
+
+    >
+      + {item}
+    </div>
+  );
+};
