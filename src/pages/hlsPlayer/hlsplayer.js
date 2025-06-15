@@ -143,7 +143,7 @@ const Player = (props) => {
   const initialisePlayer = async () => {
     destroyPlayer();
     await getAdsData();
-    let url = "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"; // props.location.state?.playerData?.video;
+    let url = props.location.state?.playerData?.video;
     if (playerType == "movietrailer") {
       url = props.location.state?.playerData?.stm_trailer_url;
     }
@@ -167,7 +167,7 @@ const Player = (props) => {
   const playerCallback = (type, current, duration) => {
     switch (type) {
       case "READY":
-        // loadAndDisplaySubtitles();
+        loadAndDisplaySubtitles();
         break;
       case "LOADED_METADATA":
         controlVisibility();
@@ -328,16 +328,18 @@ const Player = (props) => {
   };
 
   const loadAndDisplaySubtitles = (counterVariable) => {
-    const subtitles = props.location.state?.playerData?.subtitles;
+    const subtitles = props.location.state?.playerData?.subtitlefile;
+    const subtitlename = props.location.state?.playerData?.subtitlename;
+
     console.log(subtitles, "sstt");
     if (counterVariable >= subtitles.length) {
-      enableCC("arabic");
+      enableCC(subtitlename[0]);
       return;
     }
     if (!counterVariable) counterVariable = 0;
-    var currentLabel = subtitles[counterVariable]?.language;
+    var currentLabel = subtitlename[counterVariable];
     axios
-      .get(`${subtitles[counterVariable].file}`)
+      .get(`${subtitles[counterVariable]}`)
       .then(function (response) {
         if (response.hasOwnProperty("type")) {
           if (response["type"] == "failure") {
@@ -489,6 +491,9 @@ const Player = (props) => {
     }
   };
   const EnablePlayerControls = () => {
+    if(showCCselector){
+      return;
+    }
     if (playerControlsRef.current) {
       playerControlsRef.current.style.display = "block";
     }
@@ -760,7 +765,7 @@ const Player = (props) => {
   };
 
   return (
-    <div className="player-container" id="player-container">
+          <div className="player-container" id="player-container">
       <div
         className="player-wrapper"
         id="player-wrapper"
@@ -816,7 +821,8 @@ const Player = (props) => {
             onKeyDown={keyDownHandler}
             onClick={clickHandler}
           />
-          {/* <img
+          { props.location.state?.playerData?.subtitlefile?.length>0&&
+           <img
             src={captionIcon}
             className="captions"
             id="captions"
@@ -824,7 +830,7 @@ const Player = (props) => {
             tabIndex={0}
             onKeyDown={keyDownHandler}
             onClick={clickHandler}
-          /> */}
+          /> }
         </div>
         <div className="time-controls">
           <div
@@ -886,9 +892,7 @@ const Player = (props) => {
           style={{ justifyContent: "center" }}
           popupData={[
             "OFF",
-            ...props.location.state?.playerData?.subtitles.map(
-              (item) => item?.language
-            ),
+            ...props.location.state?.playerData?.subtitlename,
           ]}
           popupCallback={(e, option) => {
             if ("OFF" == option.value) {

@@ -121,6 +121,7 @@ const AdsPlayerRoot = (props) => {
     // TODO? add impression tracking
   };
   const onPlaying = () => {
+    window.AdsPlaying = true;
     if (AdImpression == undefined || AdImpression == false) {
       try {
         adsImpression(AdsPlayedIndex);
@@ -233,7 +234,7 @@ const AdsPlayerRoot = (props) => {
           preload="auto"
           autoPlay
         />
-        {showPlayPauseButton && (
+        {false && (
           <div
             id="adsPlayerControls"
             style={{
