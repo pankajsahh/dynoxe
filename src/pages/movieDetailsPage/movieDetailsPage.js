@@ -167,37 +167,35 @@ const MovieDetailsPage = () => {
     } else {
       console.log("Unknown status.");
     }
-   
   };
-   function hasValidSubscription(subscription) {
-      if (!Array.isArray(subscription) || subscription.length === 0)
-        return false;
+  function hasValidSubscription(subscription) {
+    if (!Array.isArray(subscription) || subscription.length === 0) return false;
 
-      const sub = subscription[0];
-      const expiryStr = sub.expiry_date?.replace("Next billing date ", "");
+    const sub = subscription[0];
+    const expiryStr = sub.expiry_date?.replace("Next billing date ", "");
 
-      if (!expiryStr) return false;
+    if (!expiryStr) return false;
 
-      // Convert to Date object
-      const expiryDate = new Date(expiryStr);
-      const today = new Date();
+    // Convert to Date object
+    const expiryDate = new Date(expiryStr);
+    const today = new Date();
 
-      // Set both to midnight for accurate date-only comparison
-      expiryDate.setHours(0, 0, 0, 0);
-      today.setHours(0, 0, 0, 0);
+    // Set both to midnight for accurate date-only comparison
+    expiryDate.setHours(0, 0, 0, 0);
+    today.setHours(0, 0, 0, 0);
 
-      return expiryDate > today;
+    return expiryDate > today;
+  }
+  const popupCallback = (type) => {
+    switch (type) {
+      case "done":
+        promptSubscribe(false);
+        break;
+      case "cancel":
+        break;
     }
-      const popupCallback = (type) => {
-        switch (type) {
-          case "done":
-            promptSubscribe(false);
-            break;
-          case "cancel":
-            break;
-        }
-      };
-    
+  };
+
   return (
     <FocusContext.Provider value={focusKey}>
       <div
@@ -249,7 +247,16 @@ const MovieDetailsPage = () => {
                   focusKey={"watchNow"}
                   onClick={playMovie}
                 >
-                  {pageData?.moviestatus === 5?"Login to watch":hasValidSubscription()||pageData?.moviestatus === 3|| pageData?.moviestatus === 1||pageData?.moviestatus === 2||pageData?.moviestatus === 4 ? "Watch Now" : "Subscribe Now"}&nbsp;{" "}
+                  {pageData?.moviestatus === 5
+                    ? "Login to watch"
+                    : hasValidSubscription() ||
+                      pageData?.moviestatus === 3 ||
+                      pageData?.moviestatus === 1 ||
+                      pageData?.moviestatus === 2 ||
+                      pageData?.moviestatus === 4
+                    ? "Watch Now"
+                    : "Subscribe Now"}
+                  &nbsp;{" "}
                 </FocusableButton>
                 <FocusableButton
                   isFocused={false}
@@ -259,7 +266,7 @@ const MovieDetailsPage = () => {
                     navigate("/player", {
                       state: {
                         playerType: "movietrailer",
-                        playerData: pageData,
+                        playerData: { ...pageData, isTrailer: true },
                         resumeFrom: pageData?.watch_time,
                       },
                     });

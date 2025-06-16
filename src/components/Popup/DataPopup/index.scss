@@ -33,7 +33,7 @@
         width: 100%;
         // height: functions.get-vw(50px);
         line-height: functions.get-vw(50px);
-        background-color:  #da513d;;
+        background-color:   #27a7ff;;
         border: functions.get-vw(2px) solid  #b3776e;;
         padding: functions.get-vw(20px) functions.get-vw(20px);
         box-sizing: border-box;
@@ -50,7 +50,7 @@
           font-size: 24px;
         }
         &.data-list-item--selected{
-          color:  #da513d;;
+          color:   #27a7ff;;
           background-color: #ffffff;
           .check {
             position: relative;

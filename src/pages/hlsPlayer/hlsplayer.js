@@ -49,6 +49,7 @@ const Player = (props) => {
   const player = useRef(null);
   let controlTimeout = useRef(null);
   const getAdsData = async () => {
+    if(AdSource || props?.location?.state?.playerData?.isTrailer) return;
     console.log(props?.location?.state?.playerData, "ads");
     let movieId = props?.location?.state?.playerData?.id;
     const formData = new FormData();
@@ -108,6 +109,9 @@ const Player = (props) => {
       playerControlsRef.current.style.display === "none"
     ) {
       dummy.current.focus();
+    }
+    return () => {
+      AdSource=null;
     }
   }, []);
   const getAdsPlayBackURLs = (time) => {
