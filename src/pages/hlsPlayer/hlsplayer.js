@@ -61,7 +61,12 @@ const Player = (props) => {
       );
       console.log(response?.data, "ads response");
       if (response?.data && response?.data?.length > 0) {
-        AdSource = response?.data;
+        AdSource = response?.data?.map((item,index) => {
+          return {
+            ...item,
+            index: index,  
+          };
+        });
       }
     } catch (err) {
       console.log(err, "ads error");
@@ -69,12 +74,8 @@ const Player = (props) => {
   };
   const onAdsEnded = (playedAd) => {
     AdSource = AdSource.map((item) => {
-      if (item.id === playedAd.id) {
-        item.nooftime = item.nooftime - 1;
-        if (item.nooftime <= 0) {
+      if (item.index === playedAd.index) {
            item.played = true;
-        }
-       
       }
       return item;
     });
@@ -114,16 +115,13 @@ const Player = (props) => {
       AdSource=null;
     }
   }, []);
+  console.log(AdSource, "AdSource");
   const getAdsPlayBackURLs = (time) => {
     if (AdSource.length > 0) {
+      console.log("recalc");
       let adNeedToPlayed = AdSource.find((item) => {
-        console.log(item, "item");
-        return (item.nooftime > 0 && item.time <= time );
+        return (!item?.played && item.time <= time );
       });
-
-      if (adNeedToPlayed?.played) {
-        return undefined;
-      }
       return adNeedToPlayed;
     }
     return undefined;
