@@ -116,11 +116,20 @@ const Player = (props) => {
   }, []);
   const getAdsPlayBackURLs = (time) => {
     if (AdSource?.length > 0) {
-      console.log("recalc");
-      let adNeedToPlayed = AdSource.find((item) => {
-        return !item?.played && item.time <= time;
-      });
-      return adNeedToPlayed;
+      // let adNeedToPlayed = AdSource.find((item) => {
+      //   return !item?.played && item.time <= time;
+      // });
+      let lastAdToBePlayed = undefined;
+      for(let i = 0; i < AdSource.length; i++) {
+        if (AdSource[i].time <= time) {
+          lastAdToBePlayed = AdSource[i];
+        }else{
+          break;
+        }
+      }
+
+      if (lastAdToBePlayed?.played) return undefined;
+      return lastAdToBePlayed;
     }
     return undefined;
   };
