@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { bindActionCreators, compose } from "redux";
-import { connect } from "react-redux";
+import { connect, useDispatch, useSelector } from "react-redux";
 import "./index.scss";
 import { showMenu } from "../../modules/menu/menu.action";
 import VideoPlayer from "../../helpers/VideoPlayer";
@@ -26,6 +26,10 @@ let currentTime = 0;
 let track = null;
 let AdSource = null;
 const Player = (props) => {
+  let location = useLocation();
+  let navigate = useNavigate();
+  const menu = useSelector((state) => state.menu);
+  const dispatch = useDispatch();
   const [state, setState] = useState({
     isLoader: true,
     networkPopup: false,
@@ -33,10 +37,10 @@ const Player = (props) => {
     isSkipIntroBtn: false,
     selectedLanguage: "",
     popupType: "",
-    title: props.location.state?.playerData?.title,
+    title: location.state?.playerData?.title,
   });
   const [showCCselector, setShowCCSelector] = useState(false);
-  const playerType = props?.location?.state?.playerType;
+  const playerType = location?.state?.playerType;
   const playerRef = useRef(null);
   const dummy = useRef(null);
   const playpause = useRef(null);
@@ -49,9 +53,9 @@ const Player = (props) => {
   const player = useRef(null);
   let controlTimeout = useRef(null);
   const getAdsData = async () => {
-    if (AdSource || props?.location?.state?.playerData?.isTrailer) return;
-    console.log(props?.location?.state?.playerData, "ads");
-    let movieId = props?.location?.state?.playerData?.id;
+    if (AdSource || location?.state?.playerData?.isTrailer) return;
+    console.log(location?.state?.playerData, "ads");
+    let movieId = location?.state?.playerData?.id;
     const formData = new FormData();
     formData.append("movieId", movieId);
     try {
@@ -82,28 +86,18 @@ const Player = (props) => {
     window.AdsPlaying = false;
     player.current.play();
   };
-  useEffect(async () => {
-    await getAdsData();
-    props.showMenu({ showMenu: false });
+  useEffect( () => {
+    getAdsData();
+    dispatch(showMenu({ showMenu: false }));
     if (dummy.current && !state.popupType) {
       dummy.current.focus();
     }
     initialisePlayer();
     registerNetworkError();
     checkNetworkStatus();
-
-    return () => {
-      props.showMenu({ showMenu: false });
-      destroyPlayer();
-      window.removeEventListener("online", online);
-      window.removeEventListener("offline", offline);
-    };
-  }, []);
-
-  useEffect(() => {
     window.AdsPlaying = false;
-    if (props.menu.showMenu) {
-      props.showMenu({ showMenu: false });
+    if (menu.showMenu) {
+      dispatch(showMenu({ showMenu: false }));
     }
     if (
       !state.popupType &&
@@ -114,10 +108,14 @@ const Player = (props) => {
     }
     return () => {
       AdSource = null;
+      dispatch(showMenu({ showMenu: false }));
+      destroyPlayer();
+      window.removeEventListener("online", online);
+      window.removeEventListener("offline", offline);
     };
   }, []);
   const getAdsPlayBackURLs = (time) => {
-    if (AdSource.length > 0) {
+    if (AdSource?.length > 0) {
       console.log("recalc");
       let adNeedToPlayed = AdSource.find((item) => {
         return !item?.played && item.time <= time;
@@ -144,36 +142,36 @@ const Player = (props) => {
 
   const initialisePlayer = async () => {
     destroyPlayer();
-    let url = props.location.state?.playerData?.video;
+    let url = location.state?.playerData?.video;
     if (playerType == "movietrailer") {
-      url = props.location.state?.playerData?.stm_trailer_url;
+      url = location.state?.playerData?.stm_trailer_url;
     }
     player.current = new VideoPlayer({
       url,
       banner: "",
       title: "testing content",
-      subtitles: props.location.state?.playerData?.subtitles,
+      subtitles: location.state?.playerData?.subtitles,
       playerCallback,
     });
     player.current.init();
-    if (props.location.state?.resumeFrom) {
-      player.current.seek(props.location.state?.resumeFrom);
+    if (location.state?.resumeFrom) {
+      player.current.seek(location.state?.resumeFrom);
     }
   };
 
   const videoEndedEvent = () => {
-    props.navigate(-1);
+    navigate(-1);
   };
 
   const playerCallback = (type, current, duration) => {
     switch (type) {
       case "READY":
+        document.querySelector(".total-time").textContent = toHHMMSS(player?.current?.duration());
         loadAndDisplaySubtitles();
         break;
       case "LOADED_METADATA":
+        document.querySelector(".total-time").textContent = toHHMMSS(player?.current?.duration());
         controlVisibility();
-        let playerDuration = duration || player.current.duration();
-        document.querySelector(".total-time").textContent = toHHMMSS(playerDuration);
         setState((prevState) => ({ ...prevState, isLoader: false }));
         if (!player.current.isPaused()) {
           playpause.current.classList.remove("pause");
@@ -236,6 +234,7 @@ const Player = (props) => {
       case "SEEKING":
         break;
       case "PLAYING":
+        document.querySelector(".total-time").textContent = toHHMMSS(player?.current?.duration());
         break;
       case "STALLED":
         break;
@@ -256,37 +255,37 @@ const Player = (props) => {
     }
   };
 
-  const updateWatchTime = (cTime) => {
-    if (window.navigator.onLine) {
-      if (playerType == "movie") {
-        axios.post(
-          `${CONSTANTS.BASE_URL}/common/recently/movies`,
-          new URLSearchParams({
-            video_id: props.location.state?.playerData?.id,
-            seconds: parseInt(cTime, 10),
-          }),
-          {
-            headers: {
-              Authorization: `Bearer ${props.auth.token}`,
-            },
-          }
-        );
-      } else if (playerType == "series") {
-        axios.post(
-          `${CONSTANTS.BASE_URL}/common/recently/episodes`,
-          new URLSearchParams({
-            episode_id: props.location.state?.playerData?.id,
-            seconds: parseInt(cTime, 10),
-          }),
-          {
-            headers: {
-              Authorization: `Bearer ${props.auth.token}`,
-            },
-          }
-        );
-      }
-    }
-  };
+  // const updateWatchTime = (cTime) => {
+  //   if (window.navigator.onLine) {
+  //     if (playerType == "movie") {
+  //       axios.post(
+  //         `${CONSTANTS.BASE_URL}/common/recently/movies`,
+  //         new URLSearchParams({
+  //           video_id: location.state?.playerData?.id,
+  //           seconds: parseInt(cTime, 10),
+  //         }),
+  //         {
+  //           headers: {
+  //             Authorization: `Bearer ${props.auth.token}`,
+  //           },
+  //         }
+  //       );
+  //     } else if (playerType == "series") {
+  //       axios.post(
+  //         `${CONSTANTS.BASE_URL}/common/recently/episodes`,
+  //         new URLSearchParams({
+  //           episode_id: location.state?.playerData?.id,
+  //           seconds: parseInt(cTime, 10),
+  //         }),
+  //         {
+  //           headers: {
+  //             Authorization: `Bearer ${props.auth.token}`,
+  //           },
+  //         }
+  //       );
+  //     }
+  //   }
+  // };
 
   const skipIntroClick = () => {
     const { skip_intro_time } = state;
@@ -306,8 +305,8 @@ const Player = (props) => {
   };
 
   const loadAndDisplaySubtitles = (counterVariable) => {
-    const subtitles = props.location.state?.playerData?.subtitlefile;
-    const subtitlename = props.location.state?.playerData?.subtitlename;
+    const subtitles = location.state?.playerData?.subtitlefile;
+    const subtitlename = location.state?.playerData?.subtitlename;
 
     console.log(subtitles, "sstt");
     if (counterVariable >= subtitles.length) {
@@ -424,12 +423,9 @@ const Player = (props) => {
 
   const updateSeekbar = (current, duration) => {
     let percentage = (current / duration) * 100;
-    if (AdSource.length > 0 && !window?.AdsPlaying) {
-          playAds(
-            Math.floor(current),
-            Math.ceil(duration)
-          );
-        }
+    if (AdSource?.length > 0 && !window?.AdsPlaying) {
+      playAds(Math.floor(current), Math.ceil(duration));
+    }
     if (document.querySelector(".seekbar-progress")) {
       document.querySelector(".seekbar-progress").style.width =
         percentage + "%";
@@ -567,8 +563,8 @@ const Player = (props) => {
       case KEY.BACK:
       case KEY.STOP:
         destroyPlayer();
-        props.showMenu({ showMenu: false });
-        props.navigate(-1);
+        dispatch(showMenu({ showMenu: false }));
+        navigate(-1);
         break;
     }
     if (key !== KEY.BACK) {
@@ -622,8 +618,8 @@ const Player = (props) => {
       case KEY.STOP:
       case KEY.BACK:
         destroyPlayer();
-        props.showMenu({ showMenu: false });
-        props.navigate(-1);
+        dispatch(showMenu({ showMenu: false }));
+        navigate(-1);
         break;
       case KEY.FORWARD:
         forward();
@@ -671,7 +667,7 @@ const Player = (props) => {
               clearInterval(pullingTime);
             }
             setTimeout(() => {
-              props.navigate(-1);
+              navigate(-1);
             }, 100);
           }
         );
@@ -682,7 +678,7 @@ const Player = (props) => {
         clearInterval(pullingTime);
       }
       setTimeout(() => {
-        props.navigate(-1);
+        navigate(-1);
       }, 100);
     }
   };
@@ -724,9 +720,11 @@ const Player = (props) => {
   };
 
   const destroyPlayer = () => {
-    if (player?.current) {
-      player?.current?.destroy();
-    }
+    try {
+      if (player?.current) {
+        player?.current?.destroy();
+      }
+    } catch (E) {}
   };
 
   const checkNetworkStatus = async () => {
@@ -807,7 +805,7 @@ const Player = (props) => {
             onKeyDown={keyDownHandler}
             onClick={clickHandler}
           />
-          {props.location.state?.playerData?.subtitlefile?.length > 0 && (
+          {location.state?.playerData?.subtitlefile?.length > 0 && (
             <img
               src={captionIcon}
               className="captions"
@@ -832,16 +830,20 @@ const Player = (props) => {
             <div className="seekbar-progress" />
             {AdSource && AdSource.length > 0
               ? AdSource.map((item) => {
-                 let percentage = (item.time / player.current.duration()) * 100;
-                 if(item.played) return null;
+                  let percentage =
+                    (item.time / player.current.duration()) * 100;
+                  if (item.played) return null;
                   return (
                     <div
                       key={item.index}
                       className={`seekbar-ads-item ${
                         item.played ? "played" : ""
                       }`}
-                      style={{ width: `${8}px`, height:"100%",
-                        left: `${percentage}%` }}
+                      style={{
+                        width: `${8}px`,
+                        height: "100%",
+                        left: `${percentage}%`,
+                      }}
                     />
                   );
                 })
@@ -893,7 +895,7 @@ const Player = (props) => {
       {showCCselector ? (
         <DataPopup
           style={{ justifyContent: "center" }}
-          popupData={["OFF", ...props.location.state?.playerData?.subtitlename]}
+          popupData={["OFF", ...location.state?.playerData?.subtitlename]}
           popupCallback={(e, option) => {
             if ("OFF" == option.value) {
               enableCC("");
@@ -925,23 +927,6 @@ const mapDispatchToProps = (dispatch) => {
   );
 };
 
-function withRouter(Component) {
-  return function Wrapper(props) {
-    const location = useLocation();
-    const navigate = useNavigate();
-    const params = useParams();
-    return (
-      <Component
-        {...props}
-        location={location}
-        navigate={navigate}
-        params={params}
-      />
-    );
-  };
-}
 
-export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  withRouter
-)(Player);
+
+export default Player;
