@@ -49,7 +49,7 @@ const Player = (props) => {
   const player = useRef(null);
   let controlTimeout = useRef(null);
   const getAdsData = async () => {
-    if(AdSource || props?.location?.state?.playerData?.isTrailer) return;
+    if (AdSource || props?.location?.state?.playerData?.isTrailer) return;
     console.log(props?.location?.state?.playerData, "ads");
     let movieId = props?.location?.state?.playerData?.id;
     const formData = new FormData();
@@ -61,10 +61,10 @@ const Player = (props) => {
       );
       console.log(response?.data, "ads response");
       if (response?.data && response?.data?.length > 0) {
-        AdSource = response?.data?.map((item,index) => {
+        AdSource = response?.data?.map((item, index) => {
           return {
             ...item,
-            index: index,  
+            index: index,
           };
         });
       }
@@ -75,14 +75,15 @@ const Player = (props) => {
   const onAdsEnded = (playedAd) => {
     AdSource = AdSource.map((item) => {
       if (item.index === playedAd.index) {
-           item.played = true;
+        item.played = true;
       }
       return item;
     });
     window.AdsPlaying = false;
     player.current.play();
   };
-  useEffect(() => {
+  useEffect(async () => {
+    await getAdsData();
     props.showMenu({ showMenu: false });
     if (dummy.current && !state.popupType) {
       dummy.current.focus();
@@ -112,15 +113,14 @@ const Player = (props) => {
       dummy.current.focus();
     }
     return () => {
-      AdSource=null;
-    }
+      AdSource = null;
+    };
   }, []);
-  console.log(AdSource, "AdSource");
   const getAdsPlayBackURLs = (time) => {
     if (AdSource.length > 0) {
       console.log("recalc");
       let adNeedToPlayed = AdSource.find((item) => {
-        return (!item?.played && item.time <= time );
+        return !item?.played && item.time <= time;
       });
       return adNeedToPlayed;
     }
@@ -144,7 +144,6 @@ const Player = (props) => {
 
   const initialisePlayer = async () => {
     destroyPlayer();
-    await getAdsData();
     let url = props.location.state?.playerData?.video;
     if (playerType == "movietrailer") {
       url = props.location.state?.playerData?.stm_trailer_url;
@@ -173,7 +172,8 @@ const Player = (props) => {
         break;
       case "LOADED_METADATA":
         controlVisibility();
-        document.querySelector(".total-time").textContent = toHHMMSS(duration);
+        let playerDuration = duration || player.current.duration();
+        document.querySelector(".total-time").textContent = toHHMMSS(playerDuration);
         setState((prevState) => ({ ...prevState, isLoader: false }));
         if (!player.current.isPaused()) {
           playpause.current.classList.remove("pause");
@@ -191,24 +191,6 @@ const Player = (props) => {
         if (state.isLoader) {
           setState((prevState) => ({ ...prevState, isLoader: false }));
         }
-        if (current >= state.skip_intro_time) {
-          setState((prevState) => ({ ...prevState, isSkipIntroBtn: false }));
-        }
-        if (
-          state.skip_intro_time &&
-          current > 2 &&
-          current < state.skip_intro_time &&
-          !state.isSkipIntroBtn
-        ) {
-          setState(
-            (prevState) => ({ ...prevState, isSkipIntroBtn: true }),
-            () => {
-              controlVisibility();
-            }
-          );
-        }
-        currentTime = player.current.currentTime();
-
         updateSeekbar(player.current.currentTime(), duration);
         if (currentTime >= lastTime + 10) {
           lastTime = currentTime;
@@ -241,12 +223,6 @@ const Player = (props) => {
       case "RATE_CHANGE":
         break;
       case "PROGRESS":
-        if (AdSource.length > 0 && !window?.AdsPlaying) {
-          playAds(
-            Math.floor(player.current.currentTime()),
-            Math.ceil(duration)
-          );
-        }
         if (window?.AdsPlaying) {
           player?.current?.pause();
           return;
@@ -408,7 +384,7 @@ const Player = (props) => {
       player.current.pause();
     }
     if (!seekTime) {
-      seekTime = currentTime;
+      seekTime = player.current.currentTime();
     }
     if (seekTime < player.current.duration()) {
       seekTime += 10;
@@ -416,7 +392,7 @@ const Player = (props) => {
       clearTimeout(seekTimeout);
       seekTimeout = setTimeout(() => {
         player.current.seek(seekTime);
-        seekTime = 0;
+        seekTime = false;
         player.current.play();
       }, 1000);
     }
@@ -427,7 +403,7 @@ const Player = (props) => {
       player.current.pause();
     }
     if (!seekTime) {
-      seekTime = currentTime;
+      seekTime = player.current.currentTime();
     }
     if (seekTime > 0) {
       seekTime -= 10;
@@ -448,6 +424,12 @@ const Player = (props) => {
 
   const updateSeekbar = (current, duration) => {
     let percentage = (current / duration) * 100;
+    if (AdSource.length > 0 && !window?.AdsPlaying) {
+          playAds(
+            Math.floor(current),
+            Math.ceil(duration)
+          );
+        }
     if (document.querySelector(".seekbar-progress")) {
       document.querySelector(".seekbar-progress").style.width =
         percentage + "%";
@@ -493,7 +475,7 @@ const Player = (props) => {
     }
   };
   const EnablePlayerControls = () => {
-    if(showCCselector){
+    if (showCCselector) {
       return;
     }
     if (playerControlsRef.current) {
@@ -512,7 +494,7 @@ const Player = (props) => {
   };
 
   const keyDownHandler = (e) => {
-    if(showCCselector) return;
+    if (showCCselector) return;
     e.stopPropagation();
     e.preventDefault();
     let key = e.keyCode;
@@ -619,11 +601,11 @@ const Player = (props) => {
           return true;
         });
         break;
-    } 
+    }
   };
 
   const dummyKeyDownHandler = (e) => {
-    if(showCCselector) return;
+    if (showCCselector) return;
     e.stopPropagation();
     e.preventDefault();
     let key = e.keyCode;
@@ -742,8 +724,8 @@ const Player = (props) => {
   };
 
   const destroyPlayer = () => {
-    if (player.current) {
-      player.current.destroy();
+    if (player?.current) {
+      player?.current?.destroy();
     }
   };
 
@@ -769,7 +751,7 @@ const Player = (props) => {
   };
 
   return (
-          <div className="player-container" id="player-container">
+    <div className="player-container" id="player-container">
       <div
         className="player-wrapper"
         id="player-wrapper"
@@ -825,16 +807,17 @@ const Player = (props) => {
             onKeyDown={keyDownHandler}
             onClick={clickHandler}
           />
-          { props.location.state?.playerData?.subtitlefile?.length>0&&
-           <img
-            src={captionIcon}
-            className="captions"
-            id="captions"
-            name="captions"
-            tabIndex={0}
-            onKeyDown={keyDownHandler}
-            onClick={clickHandler}
-          /> }
+          {props.location.state?.playerData?.subtitlefile?.length > 0 && (
+            <img
+              src={captionIcon}
+              className="captions"
+              id="captions"
+              name="captions"
+              tabIndex={0}
+              onKeyDown={keyDownHandler}
+              onClick={clickHandler}
+            />
+          )}
         </div>
         <div className="time-controls">
           <div
@@ -847,6 +830,22 @@ const Player = (props) => {
             onClick={progressClickHandler}
           >
             <div className="seekbar-progress" />
+            {AdSource && AdSource.length > 0
+              ? AdSource.map((item) => {
+                 let percentage = (item.time / player.current.duration()) * 100;
+                 if(item.played) return null;
+                  return (
+                    <div
+                      key={item.index}
+                      className={`seekbar-ads-item ${
+                        item.played ? "played" : ""
+                      }`}
+                      style={{ width: `${8}px`, height:"100%",
+                        left: `${percentage}%` }}
+                    />
+                  );
+                })
+              : null}
           </div>
           {track && track.length > 0 ? (
             <span
@@ -894,10 +893,7 @@ const Player = (props) => {
       {showCCselector ? (
         <DataPopup
           style={{ justifyContent: "center" }}
-          popupData={[
-            "OFF",
-            ...props.location.state?.playerData?.subtitlename,
-          ]}
+          popupData={["OFF", ...props.location.state?.playerData?.subtitlename]}
           popupCallback={(e, option) => {
             if ("OFF" == option.value) {
               enableCC("");

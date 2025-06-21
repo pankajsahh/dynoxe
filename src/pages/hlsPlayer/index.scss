@@ -35,7 +35,7 @@
     white-space: pre-wrap;
     word-wrap: break-word;
   }
-  // background: #ff0000;
+  // background: #27a7ff;
   .player-wrapper {
     position: absolute;
     top: 0;
@@ -99,7 +99,7 @@
     z-index: 999;
 
     &:focus {
-      background: #ff0000;
+      background: #27a7ff;
       color: #fff;
     }
   }
@@ -127,19 +127,29 @@
       align-items: center;
 
       .seekbar-wrapper {
-        width: functions.get-vw(1150px);
+        width: 900px;
         height: functions.get-vw(6.4px);
         background: #707070;
-        margin-left: functions.get-vw(86px);
-        margin-right: functions.get-vw(48px);
-
+        position: relative;
+        // margin-left: functions.get-vw(86px);
+        // margin-right: functions.get-vw(48px);
+        .seekbar-ads-item{
+          position: absolute;
+          left: 0;
+          top: 0;
+          height: functions.get-vw(6.4px);
+          width: 0;
+          background: #ff0000;
+          cursor: pointer;
+          
+        }
         .seekbar-progress {
           position: relative;
           left: 0;
           top: 0;
           height: functions.get-vw(6.4px);
           width: 0;
-          background: #ff0000;
+          background: #27a7ff;
           cursor: pointer;
 
           &::after {
@@ -147,7 +157,7 @@
             position: absolute;
             height: functions.get-vw(32px);
             width: functions.get-vw(32px);
-            background: #ff0000;
+            background: #27a7ff;
             right: -(functions.get-vw(16px));
             top: -(functions.get-vw(12.8px));
             border-radius: functions.get-vw(16px);
