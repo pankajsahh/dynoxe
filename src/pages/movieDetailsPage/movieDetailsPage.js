@@ -16,6 +16,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getlocaliseText } from "../../utils/localisation";
 import { noMenuRoute } from "../../App";
 import { showMenu } from "../../modules/menu/menu.action";
+import Popup from "../../components/Popup";
 
 const MovieDetailsPage = () => {
   const { ref, focusKey } = useFocusable({
@@ -249,11 +250,12 @@ const MovieDetailsPage = () => {
                 >
                   {pageData?.moviestatus === 5
                     ? "Login to watch"
+                    : pageData?.moviestatus === 4
+                    ? pageData?.mostatus
                     : hasValidSubscription() ||
                       pageData?.moviestatus === 3 ||
                       pageData?.moviestatus === 1 ||
-                      pageData?.moviestatus === 2 ||
-                      pageData?.moviestatus === 4
+                      pageData?.moviestatus === 2
                     ? "Watch Now"
                     : "Subscribe Now"}
                   &nbsp;{" "}

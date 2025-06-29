@@ -53,7 +53,8 @@ const Player = (props) => {
   const player = useRef(null);
   let controlTimeout = useRef(null);
   const getAdsData = async () => {
-    if (AdSource || location?.state?.playerData?.isTrailer) return;
+    if (location?.state?.playerData?.isTrailer) return;
+    if (AdSource) return;
     console.log(location?.state?.playerData, "ads");
     let movieId = location?.state?.playerData?.id;
     const formData = new FormData();
@@ -86,7 +87,7 @@ const Player = (props) => {
     window.AdsPlaying = false;
     player.current.play();
   };
-  useEffect( () => {
+  useEffect(() => {
     getAdsData();
     dispatch(showMenu({ showMenu: false }));
     if (dummy.current && !state.popupType) {
@@ -175,11 +176,15 @@ const Player = (props) => {
   const playerCallback = (type, current, duration) => {
     switch (type) {
       case "READY":
-        document.querySelector(".total-time").textContent = toHHMMSS(player?.current?.duration());
+        document.querySelector(".total-time").textContent = toHHMMSS(
+          player?.current?.duration()
+        );
         loadAndDisplaySubtitles();
         break;
       case "LOADED_METADATA":
-        document.querySelector(".total-time").textContent = toHHMMSS(player?.current?.duration());
+        document.querySelector(".total-time").textContent = toHHMMSS(
+          player?.current?.duration()
+        );
         controlVisibility();
         setState((prevState) => ({ ...prevState, isLoader: false }));
         if (!player.current.isPaused()) {
@@ -243,7 +248,9 @@ const Player = (props) => {
       case "SEEKING":
         break;
       case "PLAYING":
-        document.querySelector(".total-time").textContent = toHHMMSS(player?.current?.duration());
+        document.querySelector(".total-time").textContent = toHHMMSS(
+          player?.current?.duration()
+        );
         break;
       case "STALLED":
         break;
@@ -935,7 +942,5 @@ const mapDispatchToProps = (dispatch) => {
     dispatch
   );
 };
-
-
 
 export default Player;
