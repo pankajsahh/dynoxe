@@ -77,13 +77,26 @@ const Player = (props) => {
       console.log(err, "ads error");
     }
   };
-  const onAdsEnded = (playedAd) => {
+  const onAdsEnded = async (playedAd) => {
     AdSource = AdSource.map((item) => {
       if (item.index === playedAd.index) {
         item.played = true;
       }
       return item;
     });
+    // if more ads with same time
+    let adNeedToPlayed = AdSource.find((item) => {
+      return !item?.played && item.time == playedAd.time;
+    });
+    if (adNeedToPlayed) {
+      console.log(adNeedToPlayed, "AdsPlayerPlayback");
+      try {
+        player?.current?.pause();
+      } catch (e) {}
+      window.AdsPlaying = true;
+      await AdsPlayer(adNeedToPlayed, onAdsEnded);
+      window.AdsPlaying = false;
+    }
     window.AdsPlaying = false;
     player.current.play();
   };
@@ -121,10 +134,10 @@ const Player = (props) => {
       //   return !item?.played && item.time <= time;
       // });
       let lastAdToBePlayed = undefined;
-      for(let i = 0; i < AdSource.length; i++) {
+      for (let i = 0; i < AdSource.length; i++) {
         if (AdSource[i].time <= time) {
           lastAdToBePlayed = AdSource[i];
-        }else{
+        } else {
           break;
         }
       }
