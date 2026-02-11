@@ -14,7 +14,7 @@
     "@noriginmedia/norigin-spatial-navigation": "^2.3.0",
     "@vitejs/plugin-legacy": "^6.1.1",
     "@vitejs/plugin-react": "^4.4.1",
-    "axios": "^1.9.0",
+    "axios": "^1.13.5",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-redux": "^9.2.0",
